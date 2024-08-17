@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Testing skins' Jekyll"
+title:  "Testing Ekin's Jekyll Blog"
 date:   2024-08-16 22:58:11 -0400
 categories: jekyll update
 ---
