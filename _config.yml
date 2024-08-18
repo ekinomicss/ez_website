@@ -21,7 +21,7 @@
 title: Miniature Donkey
 email: zorerekin@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  God doesn't give a feck about miniature donkeys. A blog on joie de vivre and the human condition. 
+  God doesn't give a feck about miniature donkeys. A blog generally about joie de vivre and the human condition. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://miniaturedonkey.life" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ekinomicss
