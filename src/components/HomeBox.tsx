@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { TwitterIcon, Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
-const BALL_SIZE = 20
+const BALL_SIZE = 25
 const BALL_SPEED = 5
 
 interface BallPosition {
@@ -39,13 +39,17 @@ export default function HomePage() {
             const { width, height } = gameAreaRef.current.getBoundingClientRect()
             let { x, y, dx, dy } = ballPosition
 
+            // Left and right edges
             if (x + BALL_SIZE > width || x < 0) dx = -dx
-            if (y + BALL_SIZE > height || y < 0) dy = -dy
+
+            // Top edge
+            if (y < 0) dy = -dy
 
             x += dx
             y += dy
 
-            if (x < 0 || x + BALL_SIZE > width || y < 0 || y + BALL_SIZE > height) {
+            // Bottom edge 
+            if (y + BALL_SIZE > height) {
                 setGameOver(true)
                 setGameStarted(false)
             } else {
@@ -60,17 +64,24 @@ export default function HomePage() {
             const mouseX = e.clientX - left
             const mouseY = e.clientY - top
 
-            if (
-                mouseX >= ballPosition.x &&
-                mouseX <= ballPosition.x + BALL_SIZE &&
-                mouseY >= ballPosition.y &&
-                mouseY <= ballPosition.y + BALL_SIZE
-            ) {
-                // Ball is caught, change its direction
+            const ballCenterX = ballPosition.x + BALL_SIZE / 2
+            const ballCenterY = ballPosition.y + BALL_SIZE / 2
+
+            const distance = Math.sqrt(
+                Math.pow(mouseX - ballCenterX, 2) + Math.pow(mouseY - ballCenterY, 2)
+            )
+
+            if (distance <= BALL_SIZE) {
+                // Ball is touched, change its direction more dramatically
+                const angle = Math.atan2(mouseY - ballCenterY, mouseX - ballCenterX)
+                const speed = Math.sqrt(ballPosition.dx ** 2 + ballPosition.dy ** 2)
+                const newDx = -Math.cos(angle) * speed  
+                const newDy = -Math.sin(angle) * speed 
+
                 setBallPosition(prev => ({
                     ...prev,
-                    dx: -prev.dx,
-                    dy: -prev.dy
+                    dx: newDx,
+                    dy: newDy
                 }))
             }
         }
@@ -78,7 +89,7 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-            <h1 className="text-4xl font-bold mb-4">Ekin's Blog</h1>
+            <a href="/"><h1 className="text-4xl font-bold mb-4 text-gray">Ekin's Blog</h1></a>
             <p className="text-xl mb-8">Under construction</p>
 
             <div className="flex space-x-4 mb-8">
@@ -101,7 +112,7 @@ export default function HomePage() {
                 {!gameStarted && !gameOver && (
                     <button
                         onClick={startGame}
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded"
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-gray px-4 py-2 rounded"
                     >
                         Start Game
                     </button>
@@ -118,8 +129,8 @@ export default function HomePage() {
                     />
                 )}
                 {gameOver && (
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-red-500">
-                        Game Over
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-red-800">
+                        game over!!
                     </div>
                 )}
             </div>
