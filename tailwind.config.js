@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'courier': ['Courier New', 'monospace'],
+        'robot': ['Roboto Mono', 'monospace'],
+      }
+    },
   },
   plugins: [],
 }

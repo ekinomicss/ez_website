@@ -114,8 +114,8 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
         >
             <div className="z-10 text-center">
-                <h1 className="text-4xl font-bold mb-4 text-gray-800">Ekin's Blog</h1>
-                <p className="text-xl mb-8 text-gray-600">Under construction</p>
+                <h1 className="text-4xl font-bold font-robot mb-4 text-gray-800">Ekin's Blog</h1>
+                <p className="text-xl mb-8 font-robot text-gray-600">Under construction</p>
 
                 <div className="flex justify-center space-x-4 mb-8">
                     <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
@@ -124,7 +124,7 @@ export default function HomePage() {
                     <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
                         <Github className="w-8 h-8 text-gray-800" />
                     </Link>
-                    <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">
                         <Linkedin className="w-8 h-8 text-blue-700" />
                     </Link>
                 </div>
@@ -143,7 +143,6 @@ export default function HomePage() {
                     />
                 )}
             </div>
-
             {!gameStarted && !gameOver && (
                 <button
                     onClick={startGame}
@@ -153,7 +152,7 @@ export default function HomePage() {
                 </button>
             )}
             {gameOver && (
-                <div className="text-2xl font-bold text-red-500 z-20">
+                <div className="text-lg font-bold text-red-500 z-20">
                     game over!!
                 </div>
             )}
