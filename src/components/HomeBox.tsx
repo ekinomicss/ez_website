@@ -23,6 +23,7 @@ export default function HomePage() {
     const [gameOver, setGameOver] = useState(false)
     const [ballPosition, setBallPosition] = useState<BallPosition>({ x: 0, y: 0, dx: BALL_SPEED, dy: BALL_SPEED })
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+    const [score, setScore] = useState(0)
 
     useEffect(() => {
         const handleResize = () => {
@@ -45,6 +46,7 @@ export default function HomePage() {
     const startGame = () => {
         setGameStarted(true)
         setGameOver(false)
+        setScore(0)
         setBallPosition({
             x: Math.random() * windowSize.width,
             y: Math.random() * windowSize.height,
@@ -55,15 +57,18 @@ export default function HomePage() {
 
     const moveBall = () => {
         let { x, y, dx, dy } = ballPosition
+        let newScore = score
 
         // Left & right edges
         if (x + BALL_SIZE > windowSize.width || x < 0) {
-            dx = -dx * 1.1 
+            dx = -dx * 1.1
+            newScore++
         }
 
         // Top edge
         if (y < 0) {
-            dy = -dy * 1.1 
+            dy = -dy * 1.1
+            newScore++
         }
 
         x += dx
@@ -79,10 +84,9 @@ export default function HomePage() {
             dy = Math.sign(dy) * Math.min(Math.max(Math.abs(dy), MIN_SPEED), MAX_SPEED)
 
             setBallPosition({ x, y, dx, dy })
+            setScore(newScore)
         }
     }
-
-    const [isHovered, setIsHovered] = useState(false)
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (gameStarted && !gameOver) {
@@ -99,7 +103,7 @@ export default function HomePage() {
             if (distance <= BALL_SIZE) {
                 const angle = Math.atan2(mouseY - ballCenterY, mouseX - ballCenterX)
                 const speed = Math.sqrt(ballPosition.dx ** 2 + ballPosition.dy ** 2)
-                const newDx = -Math.cos(angle) * speed * 1.2 
+                const newDx = -Math.cos(angle) * speed * 1.2
                 const newDy = -Math.sin(angle) * speed * 1.2
 
                 setBallPosition(prev => ({
@@ -117,7 +121,7 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
         >
             <div className="z-10 text-center">
-                <a href = "/">
+                <a href="/">
                     <Gradient />
                 </a>
                 <p className="text-xl mb-8 font-roboto text-gray-600">Under construction</p>
@@ -148,20 +152,14 @@ export default function HomePage() {
                     />
                 )}
             </div>
-            {!gameStarted && !gameOver && (
-                <button
-                    onClick={startGame}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors z-20"
-                >
-                    Start Game
-                </button>
-            )}
-            {gameOver && (
-                <div className="text-lg font-bold font-roboto text-red-500 z-20">
-                    game over!!
-                </div>
-            )}
-            {/* add case for when game is ongoing, so there is empty space where button was  */}
+            <button
+                onClick={startGame}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors z-20"
+            >
+                {!gameStarted && !gameOver && 'Start Game'}
+                {gameStarted && !gameOver && `Score: ${score}`}
+                {gameOver && `Game Over!! Score: ${score}`}
+            </button>
         </div>
     )
 }
