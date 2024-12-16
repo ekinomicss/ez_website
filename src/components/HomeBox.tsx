@@ -157,7 +157,7 @@ export default function HomePage() {
                 </button>
             )}
             {gameOver && (
-                <div className="text-lg font-bold text-red-500 z-20">
+                <div className="text-lg font-bold font-roboto text-red-500 z-20">
                     game over!!
                 </div>
             )}
