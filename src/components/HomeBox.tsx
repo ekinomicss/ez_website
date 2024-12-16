@@ -4,6 +4,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { Twitter, Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
+import Gradient from './Gradient'
 
 const BALL_SIZE = 20
 const BALL_SPEED = 5
@@ -117,9 +118,7 @@ export default function HomePage() {
         >
             <div className="z-10 text-center">
                 <a href = "/">
-                    <h1 className="text-4xl font-bold font-roboto mb-4 text-gray-800 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-800 hover:text-transparent hover:bg-clip-text transition-colors duration-300">
-                Ekin's Blog
-                </h1>
+                    <Gradient />
                 </a>
                 <p className="text-xl mb-8 font-roboto text-gray-600">Under construction</p>
 
