@@ -123,13 +123,13 @@ export default function HomePage() {
                 <p className="text-xl mb-8 font-roboto text-gray-600">Under construction</p>
 
                 <div className="flex justify-center space-x-4 mb-8">
-                    <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://twitter.com/ekinomicss" target="_blank" rel="noopener noreferrer">
                         <Twitter className="w-8 h-8 text-blue-400" />
                     </Link>
-                    <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://github.com/ekinomicss" target="_blank" rel="noopener noreferrer">
                         <Github className="w-8 h-8 text-gray-800" />
                     </Link>
-                    <Link href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://linkedin.com/in/ekin-zorer" target="_blank" rel="noopener noreferrer">
                         <Linkedin className="w-8 h-8 text-blue-700" />
                     </Link>
                 </div>
