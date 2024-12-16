@@ -81,6 +81,8 @@ export default function HomePage() {
         }
     }
 
+    const [isHovered, setIsHovered] = useState(false)
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (gameStarted && !gameOver) {
             const mouseX = e.clientX
@@ -114,8 +116,12 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
         >
             <div className="z-10 text-center">
-                <h1 className="text-4xl font-bold font-robot mb-4 text-gray-800">Ekin's Blog</h1>
-                <p className="text-xl mb-8 font-robot text-gray-600">Under construction</p>
+                <a href = "/">
+                    <h1 className="text-4xl font-bold font-roboto mb-4 text-gray-800 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-800 hover:text-transparent hover:bg-clip-text transition-colors duration-300">
+                Ekin's Blog
+                </h1>
+                </a>
+                <p className="text-xl mb-8 font-roboto text-gray-600">Under construction</p>
 
                 <div className="flex justify-center space-x-4 mb-8">
                     <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
