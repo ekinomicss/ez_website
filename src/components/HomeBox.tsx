@@ -158,7 +158,7 @@ export default function HomePage() {
             >
                 {!gameStarted && !gameOver && 'Start Game'}
                 {gameStarted && !gameOver && `Don't let the ball drop. Score: ${score}`}
-                {gameOver && `Game Over!! Score: ${score}`}
+                {gameOver && `Game over! Score: ${score}`}
             </button>
         </div>
     )
