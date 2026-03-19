@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import Gradient from '../../components/Gradient'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
-export default function ResumePage() {
+export default function AboutPage() {
     const router = useRouter()
     const { triggerBurst } = useStarBurst()
 
@@ -71,7 +71,7 @@ export default function ResumePage() {
                 <div className="mt-1 flex flex-wrap items-center gap-2">
                     <button
                         type="button"
-                        onClick={() => navigateWithBurst('/resume')}
+                        onClick={() => navigateWithBurst('/about')}
                         className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
                     >
                         About
@@ -91,6 +91,9 @@ export default function ResumePage() {
             <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10">
                 <section className="border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">Currently: Research Engineer @ UK AISI</h2>
+                    <p className="mt-3 text-sm italic text-blue-200">
+                        Former quant hedge fund analytics person turned professionally AI safety pilled 🤖❤️🌎
+                    </p>
                     <p className="mt-3 text-sm text-gray-300">
                         The Cyber and Autonomous Systems Team researches frontier AI capabilities and propensities to
                         inform high-stakes security decisions, especially around cyber risk and autonomous misuse.
@@ -98,9 +101,6 @@ export default function ResumePage() {
                     <p className="mt-3 text-sm text-gray-300">
                         Current focus includes evaluation infrastructure, cyber ranges, and model capability testing
                         before release, with collaboration across government, industry, and research partners.
-                    </p>
-                    <p className="mt-3 text-sm italic text-blue-200">
-                        Former quant hedge fund analytics person turned professionally AI safety pilled
                     </p>
                 </section>
 

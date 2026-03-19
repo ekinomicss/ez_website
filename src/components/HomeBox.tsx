@@ -142,11 +142,11 @@ export default function HomePage() {
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
                     <button
                         type="button"
-                        onClick={() => navigateWithBurst('/resume')}
+                        onClick={() => navigateWithBurst('/about')}
                         disabled={isNavigating}
                         className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                        Resume
+                        About
                     </button>
                     <button
                         type="button"

@@ -83,7 +83,7 @@ export default function WorkPage() {
                 <div className="mt-1 flex flex-wrap items-center gap-2">
                     <button
                         type="button"
-                        onClick={() => navigateWithBurst('/resume')}
+                        onClick={() => navigateWithBurst('/about')}
                         className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
                     >
                         About
