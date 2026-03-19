@@ -19,6 +19,8 @@ interface StarFieldProps {
     dispersionRadius?: number
     dispersionForce?: number
     returnSpeed?: number
+    burstSignal?: number
+    className?: string
 }
 
 export default function StarField({
@@ -27,6 +29,8 @@ export default function StarField({
     dispersionRadius = 100,
     dispersionForce = 5,
     returnSpeed = 0.02,
+    burstSignal = 0,
+    className = "fixed inset-0 pointer-events-none z-0",
 }: StarFieldProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [stars, setStars] = useState<Star[]>([])
@@ -89,6 +93,22 @@ export default function StarField({
     }, [])
 
     useEffect(() => {
+        if (!burstSignal || dimensions.width === 0 || dimensions.height === 0) return
+
+        const burstPoint = {
+            x: dimensions.width / 2,
+            y: dimensions.height / 2,
+        }
+
+        setMousePosition(burstPoint)
+        const timeoutId = window.setTimeout(() => {
+            setMousePosition(null)
+        }, 180)
+
+        return () => window.clearTimeout(timeoutId)
+    }, [burstSignal, dimensions.width, dimensions.height])
+
+    useEffect(() => {
         if (!canvasRef.current || stars.length === 0) return
 
         const ctx = canvasRef.current.getContext("2d")
@@ -122,6 +142,24 @@ export default function StarField({
                 x += vx
                 y += vy
 
+                // Keep stars visible during burst/dispersal.
+                // If a star reaches an edge, clamp it and dampen the velocity.
+                if (x < 0) {
+                    x = 0
+                    vx *= -0.35
+                } else if (x > dimensions.width) {
+                    x = dimensions.width
+                    vx *= -0.35
+                }
+
+                if (y < 0) {
+                    y = 0
+                    vy *= -0.35
+                } else if (y > dimensions.height) {
+                    y = dimensions.height
+                    vy *= -0.35
+                }
+
                 ctx.beginPath()
                 ctx.arc(x, y, size, 0, Math.PI * 2)
                 ctx.fillStyle = color
@@ -141,6 +179,6 @@ export default function StarField({
         }
     }, [stars, mousePosition, dimensions, dispersionRadius, dispersionForce, returnSpeed])
 
-    return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />
+    return <canvas ref={canvasRef} className={className} />
 }
 

@@ -4,6 +4,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { Twitter, Github, Linkedin } from 'lucide-react'
 import { default as NextLink } from 'next/link'
+import { useRouter } from 'next/navigation'
 import Gradient from './Gradient'
 import StarField from './StarField'
 
@@ -20,11 +21,14 @@ interface BallPosition {
 }
 
 export default function HomePage() {
+    const router = useRouter()
     const [gameStarted, setGameStarted] = useState(false)
     const [gameOver, setGameOver] = useState(false)
     const [ballPosition, setBallPosition] = useState<BallPosition>({ x: 0, y: 0, dx: BALL_SPEED, dy: BALL_SPEED })
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
     const [score, setScore] = useState(0)
+    const [starBurstSignal, setStarBurstSignal] = useState(0)
+    const [isNavigating, setIsNavigating] = useState(false)
 
     useEffect(() => {
         const handleResize = () => {
@@ -114,17 +118,48 @@ export default function HomePage() {
         }
     }
 
+    const navigateWithBurst = (path: string) => {
+        if (isNavigating) return
+        setIsNavigating(true)
+        setStarBurstSignal(prev => prev + 1)
+        window.setTimeout(() => {
+            router.push(path)
+        }, 180)
+    }
+
     return (
         <div
             className="min-h-screen flex flex-col items-center justify-center bg-gray-800 p-4 overflow-hidden relative"
             onMouseMove={handleMouseMove}
         >
-            <StarField count={300} dispersionRadius={120} dispersionForce={6} />
+            <StarField count={300} dispersionRadius={120} dispersionForce={6} burstSignal={starBurstSignal} />
             <div className="z-10 text-center">
                 <a href="/">
                     <Gradient />
                 </a>
-                <p className="text-lg mb-8 font-roboto text-gray-300">Research Engineer, Cyber and Autonomous Systems Team @UK AISI</p>
+                <p className="text-lg mb-4 font-roboto text-gray-300">Research Engineer, Cyber and Autonomous Systems Team @UK AISI</p>
+
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+                    <button
+                        type="button"
+                        onClick={() => navigateWithBurst('/resume')}
+                        disabled={isNavigating}
+                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                        Resume
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => navigateWithBurst('/work')}
+                        disabled={isNavigating}
+                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                        Work
+                    </button>
+                    <span className="cursor-not-allowed rounded-none border border-gray-600/60 bg-gray-900/50 px-4 py-2 text-xs font-semibold italic uppercase tracking-[0.18em] text-gray-500">
+                        Blog (soon)
+                    </span>
+                </div>
 
                 <div className="flex justify-center space-x-4 mb-8">
                     <NextLink href="https://twitter.com/ekinomicss" target="_blank" rel="noopener noreferrer">
