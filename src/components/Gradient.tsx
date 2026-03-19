@@ -44,7 +44,7 @@ export default function Gradient() {
                     color: 'transparent',
                 }}
             >
-                Ekin's Blog
+                Ekin Zorer
             </h1>
         </Link>
     )

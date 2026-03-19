@@ -2,6 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import StarField from './StarField'
+import PageTransition from './PageTransition'
 
 interface StarBurstContextValue {
     triggerBurst: () => void
@@ -35,7 +36,9 @@ export default function StarBackgroundProvider({ children }: { children: React.R
                 burstSignal={burstSignal}
                 className="fixed inset-0 pointer-events-none z-30 opacity-80 max-md:opacity-45 max-sm:opacity-35"
             />
-            <div className="relative z-20">{children}</div>
+            <div className="relative z-20">
+                <PageTransition>{children}</PageTransition>
+            </div>
         </StarBurstContext.Provider>
     )
 }
