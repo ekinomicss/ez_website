@@ -124,7 +124,7 @@ export default function HomePage() {
                 <a href="/">
                     <Gradient />
                 </a>
-                <p className="text-xl mb-8 font-roboto text-gray-300">Under construction</p>
+                <p className="text-lg mb-8 font-roboto text-gray-300">Research Engineer, Cyber and Autonomous Systems Team @UK AISI</p>
 
                 <div className="flex justify-center space-x-4 mb-8">
                     <NextLink href="https://twitter.com/ekinomicss" target="_blank" rel="noopener noreferrer">
