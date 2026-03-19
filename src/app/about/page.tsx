@@ -66,7 +66,7 @@ export default function AboutPage() {
     ]
 
     return (
-        <main className="min-h-screen bg-gray-800 px-6 py-16 pt-36 text-gray-100 relative">
+        <main className="relative min-h-screen bg-gray-800 px-6 pb-16 pt-56 text-gray-100 sm:pt-52 md:pt-44 lg:pt-36">
             <div className="absolute left-6 top-6 z-10">
                 <Gradient />
                 <div className="mt-1">
