@@ -35,15 +35,14 @@ export default function ContactPage() {
                         >
                             zorerekin@gmail.com
                         </a>{' '}
-                        <span className="font-medium text-gray-200">only about AI safety</span> (career pivots, the
-                        field, related stuff).
+                        <span className="font-medium text-gray-200">only about AI safety please. </span>
                     </p>
                     <p className="mt-4 text-sm text-gray-300">
-                        I&apos;m happy to offer informal advice and mentoring for people trying to move into AI safety
-                        (especially women/non binary!) Though I can&apos;t promise I&apos;ll get back to every email.
+                        <span className="font-medium text-gray-400">💬 Advice & mentoring:</span> I&apos;m happy to offer informal advice and mentoring for people trying to move into AI safety
+                        (especially for women/non binary peeps!) Though I can&apos;t promise I&apos;ll get back to every email.
                     </p>
                     <p className="mt-4 text-sm text-gray-300">
-                        I&apos;m also open to research collaborations when there&apos;s a good fit. To see what
+                        <span className="font-medium text-gray-400">🤝 Collaboration:</span> I&apos;m also open to research collaborations when there&apos;s a good fit. To see what
                         I&apos;m into lately, check my{' '}
                         <a
                             href="https://twitter.com/ekinomicss"
