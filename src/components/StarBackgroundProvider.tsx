@@ -33,7 +33,7 @@ export default function StarBackgroundProvider({ children }: { children: React.R
                 dispersionRadius={120}
                 dispersionForce={6}
                 burstSignal={burstSignal}
-                className="fixed inset-0 pointer-events-none z-30 opacity-80"
+                className="fixed inset-0 pointer-events-none z-30 opacity-80 max-md:opacity-45 max-sm:opacity-35"
             />
             <div className="relative z-20">{children}</div>
         </StarBurstContext.Provider>

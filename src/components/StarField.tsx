@@ -47,11 +47,20 @@ export default function StarField({
                 canvasRef.current.height = height
                 setDimensions({ width, height })
 
+                // Fewer, subtler stars on small screens (less visual noise on phones).
+                const effectiveCount =
+                    width < 480
+                        ? Math.max(50, Math.round(count * 0.22))
+                        : width < 768
+                          ? Math.max(80, Math.round(count * 0.38))
+                          : count
+                const sizeScale = width < 640 ? 0.65 : 1
+
                 const newStars: Star[] = []
-                for (let i = 0; i < count; i++) {
+                for (let i = 0; i < effectiveCount; i++) {
                     const x = Math.random() * width
                     const y = Math.random() * height
-                    const size = Math.random() * 2 + 0.5
+                    const size = (Math.random() * 2 + 0.5) * sizeScale
 
                     const colorChoice = Math.random()
                     let color
