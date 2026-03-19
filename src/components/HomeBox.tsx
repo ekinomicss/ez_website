@@ -6,6 +6,7 @@ import { Twitter, Github, Linkedin } from 'lucide-react'
 import { default as NextLink } from 'next/link'
 import { useRouter } from 'next/navigation'
 import Gradient from './Gradient'
+import SiteNav from './SiteNav'
 import StarField from './StarField'
 
 const BALL_SIZE = 20
@@ -139,34 +140,8 @@ export default function HomePage() {
                 </a>
                 <p className="text-lg mb-4 font-roboto text-gray-300">Research Engineer, Cyber and Autonomous Systems Team @UK AISI</p>
 
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/about')}
-                        disabled={isNavigating}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                        About
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/work')}
-                        disabled={isNavigating}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                        Work
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/contact')}
-                        disabled={isNavigating}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                        Contact
-                    </button>
-                    <span className="cursor-not-allowed rounded-none border border-gray-600/60 bg-gray-900/50 px-4 py-2 text-xs font-semibold italic uppercase tracking-[0.18em] text-gray-500">
-                        Blog (soon)
-                    </span>
+                <div className="mb-6 flex justify-center">
+                    <SiteNav onNavigate={navigateWithBurst} disabled={isNavigating} className="flex flex-wrap items-center justify-center gap-2" />
                 </div>
 
                 <div className="flex justify-center space-x-4 mb-8">

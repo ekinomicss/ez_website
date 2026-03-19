@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import Gradient from '../../components/Gradient'
+import SiteNav from '../../components/SiteNav'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
 export default function AboutPage() {
@@ -68,31 +69,8 @@ export default function AboutPage() {
         <main className="min-h-screen bg-gray-800 px-6 py-16 pt-36 text-gray-100 relative">
             <div className="absolute left-6 top-6 z-10">
                 <Gradient />
-                <div className="mt-1 flex flex-wrap items-center gap-2">
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/about')}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
-                    >
-                        About
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/work')}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
-                    >
-                        Work
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigateWithBurst('/contact')}
-                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
-                    >
-                        Contact
-                    </button>
-                    <span className="cursor-not-allowed rounded-none border border-gray-600/60 bg-gray-900/50 px-4 py-2 text-xs font-semibold italic uppercase tracking-[0.18em] text-gray-500">
-                        Blog (soon)
-                    </span>
+                <div className="mt-1">
+                    <SiteNav onNavigate={navigateWithBurst} />
                 </div>
             </div>
             <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10">
