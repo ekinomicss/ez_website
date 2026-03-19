@@ -25,9 +25,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col gap-8">
-                <h1 className="text-3xl font-semibold uppercase tracking-[0.08em] text-blue-200">Contact</h1>
-
+            <div className="relative z-10 mx-auto w-full max-w-2xl">
                 <section className="border border-gray-700/70 bg-gray-900/40 p-6">
                     <p className="text-sm text-gray-300">
                         Hey 👋, reach out at{' '}
