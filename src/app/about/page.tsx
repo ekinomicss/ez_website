@@ -83,6 +83,13 @@ export default function AboutPage() {
                     >
                         Work
                     </button>
+                    <button
+                        type="button"
+                        onClick={() => navigateWithBurst('/contact')}
+                        className="rounded-none border border-blue-400/70 bg-gray-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 transition-colors hover:border-blue-300 hover:bg-blue-950/40"
+                    >
+                        Contact
+                    </button>
                     <span className="cursor-not-allowed rounded-none border border-gray-600/60 bg-gray-900/50 px-4 py-2 text-xs font-semibold italic uppercase tracking-[0.18em] text-gray-500">
                         Blog (soon)
                     </span>
