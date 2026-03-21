@@ -134,15 +134,13 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
         >
             <StarField count={300} dispersionRadius={120} dispersionForce={6} burstSignal={starBurstSignal} />
-            <div className="z-10 text-center">
+            <div className="z-10 w-full min-w-0 max-w-full px-2 text-center">
                 <a href="/">
                     <Gradient />
                 </a>
-                <div className="mb-4 flex w-full justify-center overflow-x-auto">
-                    <p className="whitespace-nowrap px-2 text-lg font-normal leading-snug tracking-wide text-gray-300">
-                        Research Engineer, Cyber and Autonomous Systems Team @UK AISI
-                    </p>
-                </div>
+                <p className="mx-auto mb-4 max-w-xl text-balance text-lg font-normal leading-snug tracking-wide text-gray-300 sm:max-w-2xl lg:max-w-none lg:whitespace-nowrap">
+                    Research Engineer, Cyber and Autonomous Systems Team @UK AISI
+                </p>
 
                 <div className="mb-6 flex justify-center">
                     <SiteNav onNavigate={navigateWithBurst} disabled={isNavigating} className="flex flex-wrap items-center justify-center gap-2" />
