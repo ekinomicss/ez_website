@@ -1,23 +1,25 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { GoodreadsIcon, LetterboxdIcon } from '../../components/BrandIcons'
+import { GoodreadsIcon, InstagramIcon, LetterboxdIcon } from '../../components/BrandIcons'
 import Gradient from '../../components/Gradient'
 import SiteNav from '../../components/SiteNav'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
 const favoriteMovies = [
-    'Bugonia (2025)',
-    'The Curious Case of Benjamin Button (2008)',
-    'The Worst Person in the World (2021)',
-    'La Chimera (2023)',
-    'Aftersun (2022)',
-    'Perfect Days (2023)',
-    'There Will Be Blood (2007)',
-    'Crossing (2024)',
-    'Burning (2018)',
-    'Before Sunset (2004)',
     '2001: A Space Odyssey (1968)',
+    'The Matrix (1999)',
+    'Before Sunset (2004)',
+    "Pan's Labyrinth (2006)",
+    'There Will Be Blood (2007)',
+    'The Curious Case of Benjamin Button (2008)',
+    'Burning (2018)',
+    'The Worst Person in the World (2021)',
+    'Aftersun (2022)',
+    'La Chimera (2023)',
+    'Perfect Days (2023)',
+    'Crossing (2024)',
+    'Bugonia (2025)',
 ] as const
 
 const favoriteBooks: { title: string; author: string }[] = [
@@ -56,7 +58,7 @@ export default function FunPage() {
             </div>
 
             <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
-                <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Self-professed joie-de-vivre-maxxer</p>
+                <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Il faut cultiver son jardin.</p>
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6 lg:items-stretch">
                 <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
@@ -65,17 +67,17 @@ export default function FunPage() {
                         href="https://letterboxd.com/eqeen/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-4 inline-flex items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                        className="mt-4 flex min-w-0 flex-wrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
                     >
                         <LetterboxdIcon className="h-8 w-8 shrink-0 text-[#00e054]" />
-                        <span>
+                        <span className="min-w-0">
                             <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
                                 Letterboxd
                             </span>{' '}
-                            — follow my film diary
+                            - follow my film diary
                         </span>
                     </a>
-                    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-gray-200">
+                    <ul className="mt-4 list-disc space-y-2 break-words pl-5 text-sm text-gray-200">
                         {favoriteMovies.map((title) => (
                             <li key={title} className="marker:text-blue-300">
                                 <span className="font-medium text-gray-100">{title}</span>
@@ -90,17 +92,17 @@ export default function FunPage() {
                         href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-4 inline-flex items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                        className="mt-4 flex min-w-0 flex-wrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
                     >
                         <GoodreadsIcon className="h-8 w-8 shrink-0 text-[#e9e5cd]" />
-                        <span>
+                        <span className="min-w-0">
                             <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
                                 Goodreads
                             </span>{' '}
-                            — follow my reading
+                            - follow my reading
                         </span>
                     </a>
-                    <ul className="mt-4 list-disc space-y-3 pl-5 text-sm text-gray-300">
+                    <ul className="mt-4 list-disc space-y-3 break-words pl-5 text-sm text-gray-300">
                         {favoriteBooks.map((b) => (
                             <li key={b.title} className="marker:text-blue-300">
                                 <span className="font-medium text-gray-100">{b.title}</span>
@@ -112,6 +114,22 @@ export default function FunPage() {
 
                 <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">Restaurants</h2>
+                    <div className="mt-4 min-w-0 overflow-x-auto">
+                        <a
+                            href="https://www.instagram.com/plsfixenyc/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex w-max max-w-none flex-nowrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                        >
+                            <InstagramIcon className="h-8 w-8 shrink-0 text-[#E4405F]" />
+                            <span className="whitespace-nowrap">
+                                <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
+                                    Instagram
+                                </span>{' '}
+                                - inactive NYC food blog
+                            </span>
+                        </a>
+                    </div>
 
                     <div className="mt-4 space-y-6">
                         <div>
@@ -144,6 +162,7 @@ export default function FunPage() {
                                 <li className="marker:text-blue-300">Bayramoğlu</li>
                                 <li className="marker:text-blue-300">Karaköy Lokantası</li>
                                 <li className="marker:text-blue-300">Mükellef Karaköy</li>
+                                <li className="marker:text-blue-300">Mangerie</li>
                             </ul>
                         </div>
                     </div>
