@@ -35,11 +35,11 @@ export default function WorkPage() {
         {
             date: 'Feb 25, 2026',
             title: 'Seven simple steps for log analysis in AI systems',
-            venue: 'UK AISI Research',
+            venue: 'TechRxiv',
             role: 'Co-author',
             links: [
+                { label: 'Paper', href: 'https://www.techrxiv.org/users/1032063/articles/1391870-seven-simple-steps-for-log-analysis-in-ai-systems' },
                 { label: 'AISI page', href: 'https://www.aisi.gov.uk/research/seven-simple-steps-for-log-analysis-in-ai-systems' },
-                { label: 'TechRxiv', href: 'https://www.techrxiv.org/users/1032063/articles/1391870-seven-simple-steps-for-log-analysis-in-ai-systems' },
             ],
             highlights: [
                 'Proposes a practical pipeline for analyzing agent logs and model behavior.',
@@ -100,9 +100,17 @@ export default function WorkPage() {
                                     <h2 className="mt-2 text-xl font-semibold text-gray-100">{item.title}</h2>
                                     <p className="mt-1 text-sm text-gray-400">{item.role}</p>
 
-                                    <ul className="mt-4 space-y-1 text-sm text-gray-300">
+                                    <ul
+                                        className="mt-4 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5"
+                                        role="list"
+                                    >
                                         {item.highlights.map((point) => (
-                                            <li key={point}>- {point}</li>
+                                            <li key={point} className="flex gap-2.5">
+                                                <span className="font-mono text-emerald-500/90" aria-hidden>
+                                                    &gt;
+                                                </span>
+                                                <span className="min-w-0 leading-relaxed">{point}</span>
+                                            </li>
                                         ))}
                                     </ul>
 
