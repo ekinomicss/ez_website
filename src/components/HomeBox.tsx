@@ -138,7 +138,11 @@ export default function HomePage() {
                 <a href="/">
                     <Gradient />
                 </a>
-                <p className="text-lg mb-4 font-roboto text-gray-300">Research Engineer, Cyber and Autonomous Systems Team @UK AISI</p>
+                <div className="mb-4 flex w-full justify-center overflow-x-auto">
+                    <p className="whitespace-nowrap px-2 text-lg font-normal leading-snug tracking-wide text-gray-300">
+                        Research Engineer, Cyber and Autonomous Systems Team @UK AISI
+                    </p>
+                </div>
 
                 <div className="mb-6 flex justify-center">
                     <SiteNav onNavigate={navigateWithBurst} disabled={isNavigating} className="flex flex-wrap items-center justify-center gap-2" />

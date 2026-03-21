@@ -55,49 +55,26 @@ export default function FunPage() {
                 </div>
             </div>
 
-            <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col gap-10">
-                <p className="text-lg italic text-blue-200/95">Self-professed joie-de-vivre-maxxer</p>
+            <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
+                <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Self-professed joie-de-vivre-maxxer</p>
 
-                <section className="border border-gray-700/70 bg-gray-900/40 p-6">
-                    <h2 className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">Elsewhere</h2>
-                    <ul className="mt-4 list-none space-y-3 pl-0 text-sm text-gray-300">
-                        <li>
-                            <a
-                                href="https://letterboxd.com/eqeen/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 transition-opacity hover:opacity-90"
-                            >
-                                <LetterboxdIcon className="h-8 w-8 shrink-0 text-[#00e054]" />
-                                <span>
-                                    <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
-                                        Letterboxd
-                                    </span>{' '}
-                                    — follow my film diary
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 transition-opacity hover:opacity-90"
-                            >
-                                <GoodreadsIcon className="h-8 w-8 shrink-0 text-[#e9e5cd]" />
-                                <span>
-                                    <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
-                                        Goodreads
-                                    </span>{' '}
-                                    — follow my reading
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-
-                <section className="border border-gray-700/70 bg-gray-900/40 p-6">
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6 lg:items-stretch">
+                <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">Favorite movies</h2>
+                    <a
+                        href="https://letterboxd.com/eqeen/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                    >
+                        <LetterboxdIcon className="h-8 w-8 shrink-0 text-[#00e054]" />
+                        <span>
+                            <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
+                                Letterboxd
+                            </span>{' '}
+                            — follow my film diary
+                        </span>
+                    </a>
                     <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-gray-200">
                         {favoriteMovies.map((title) => (
                             <li key={title} className="marker:text-blue-300">
@@ -107,8 +84,22 @@ export default function FunPage() {
                     </ul>
                 </section>
 
-                <section className="border border-gray-700/70 bg-gray-900/40 p-6">
+                <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">Favorite books</h2>
+                    <a
+                        href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                    >
+                        <GoodreadsIcon className="h-8 w-8 shrink-0 text-[#e9e5cd]" />
+                        <span>
+                            <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
+                                Goodreads
+                            </span>{' '}
+                            — follow my reading
+                        </span>
+                    </a>
                     <ul className="mt-4 list-disc space-y-3 pl-5 text-sm text-gray-300">
                         {favoriteBooks.map((b) => (
                             <li key={b.title} className="marker:text-blue-300">
@@ -119,7 +110,7 @@ export default function FunPage() {
                     </ul>
                 </section>
 
-                <section className="border border-gray-700/70 bg-gray-900/40 p-6">
+                <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">Restaurants</h2>
 
                     <div className="mt-4 space-y-6">
@@ -157,6 +148,7 @@ export default function FunPage() {
                         </div>
                     </div>
                 </section>
+                </div>
             </div>
         </main>
     )

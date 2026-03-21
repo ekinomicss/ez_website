@@ -25,7 +25,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <div className="relative z-10 mx-auto w-full max-w-2xl">
+            <div className="relative z-10 mx-auto w-full max-w-5xl">
                 <section className="border border-gray-700/70 bg-gray-900/40 p-6">
                     <p className="text-sm text-gray-300">
                         Hey 👋, reach out at{' '}
