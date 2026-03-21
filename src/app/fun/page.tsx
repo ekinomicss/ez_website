@@ -58,7 +58,7 @@ export default function FunPage() {
             </div>
 
             <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
-                <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Il faut cultiver son jardin.</p>
+                <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Il faut cultiver notre jardin.</p>
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6 lg:items-stretch">
                 <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
