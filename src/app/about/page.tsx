@@ -63,7 +63,7 @@ export default function AboutPage() {
         {
             title: 'Citadel LLC - Data Analyst (Part-time & Summer Intern)',
             location: 'Chicago, IL',
-            date: '2017 - 2018',
+            date: 'Feb - Aug 2018',
         },
     ]
 
