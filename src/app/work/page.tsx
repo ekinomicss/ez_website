@@ -51,7 +51,7 @@ export default function WorkPage() {
             date: 'Jan 22, 2026',
             title: 'Improving Methodologies for Agentic Evaluations Across Domains',
             venue: 'arXiv (cs.AI)',
-            role: 'Contributor',
+            role: 'Co-author',
             links: [
                 { label: 'Paper', href: 'https://arxiv.org/abs/2601.15679' },
             ],
@@ -60,6 +60,21 @@ export default function WorkPage() {
                 'Focuses on improving methodology rather than leaderboard performance claims.',
             ],
             previewImage: '/work-previews/agentic-evals-2026.png',
+        },
+        {
+            date: 'Dec 18, 2025',
+            title: 'Frontier AI Trends Report',
+            venue: 'AISI',
+            role: 'Contributor',
+            links: [
+                { label: 'Report', href: 'https://www.aisi.gov.uk/frontier-ai-trends-report/pdf' },
+                { label: 'AISI page', href: 'https://www.aisi.gov.uk/frontier-ai-trends-report' },
+            ],
+            highlights: [
+                "AISI's first public evidence-based assessment of frontier model capability trends.",
+                'Synthesizes findings across cyber, autonomy, safeguards, and broader societal impacts.',
+            ],
+            previewImage: '/work-previews/trends-report.jpg',
         },
         {
             date: 'Q4 2022',

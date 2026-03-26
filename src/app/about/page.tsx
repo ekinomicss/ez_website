@@ -90,9 +90,8 @@ export default function AboutPage() {
                                 &gt;
                             </span>
                             <span className="min-w-0 leading-relaxed">
-                                A year ago, I discovered AI safety during a career break and quickly realized it aligned far better with both my
-                                skills and values than my previous work in finance. It became clear to me that contributing to making these
-                                systems safe and beneficial could be the most impactful path I could take so I went for it. 🚀
+                                I discovered AI safety during a career break and realized it was the most impactful thing I could be doing given my existing skills and experience.
+                                It's a unique time in history to be a CS nerd. So I went for it. 🚀
                             </span>
                         </li>
                         <li className="flex gap-2.5">
@@ -101,7 +100,7 @@ export default function AboutPage() {
                             </span>
                             <span className="min-w-0 leading-relaxed">
                                 My current team, <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
-                                propensities to inform high-stakes security decisions, especially around cyber risk and autonomous misuse. Current
+                                propensities to inform high-stakes security decisions  around cyber risk and autonomous misuse. Current
                                 focus includes evaluation infrastructure, cyber ranges, and model capability testing before release, with
                                 collaboration across government, industry, and research partners.
                             </span>
