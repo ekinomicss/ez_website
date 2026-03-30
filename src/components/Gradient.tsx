@@ -42,6 +42,8 @@ export default function Gradient() {
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
                     color: 'transparent',
+                    filter:
+                        'drop-shadow(0 1px 2px rgba(15, 23, 42, 0.4)) drop-shadow(0 2px 10px rgba(15, 23, 42, 0.18))',
                 }}
             >
                 Ekin Zorer
