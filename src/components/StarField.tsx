@@ -1,6 +1,8 @@
 "use client"
 
+import type { MutableRefObject } from "react"
 import { useEffect, useRef, useState } from "react"
+import type { ViewportClearRect } from "./star-clear-types"
 
 interface Star {
     x: number
@@ -15,28 +17,95 @@ interface Star {
 
 interface StarFieldProps {
     count?: number
-    speed?: number
     dispersionRadius?: number
     dispersionForce?: number
     returnSpeed?: number
     burstSignal?: number
     className?: string
+    /** When true and `clearViewportRectRef` has a valid rect, stars avoid that ellipse (plus padding). */
+    useContentClearZone?: boolean
+    clearViewportRectRef?: MutableRefObject<ViewportClearRect | null>
+    clearPaddingPx?: number
+    /** Bumps when the registered clear-zone element changes so stars can be resampled. */
+    clearZoneTick?: number
+}
+
+type ForbiddenEllipse = { cx: number; cy: number; rx: number; ry: number }
+
+function buildForbiddenEllipse(
+    width: number,
+    height: number,
+    useContentClearZone: boolean,
+    measured: ViewportClearRect | null,
+    clearPaddingPx: number
+): ForbiddenEllipse | null {
+    if (!useContentClearZone || width <= 0 || height <= 0) return null
+    if (!measured || measured.width < 4 || measured.height < 4) return null
+
+    const cx = measured.left + measured.width / 2
+    const cy = measured.top + measured.height / 2
+    const rx = Math.max(8, measured.width / 2 + clearPaddingPx)
+    const ry = Math.max(8, measured.height / 2 + clearPaddingPx)
+    return { cx, cy, rx, ry }
+}
+
+function isInsideForbidden(x: number, y: number, p: ForbiddenEllipse): boolean {
+    const dx = x - p.cx
+    const dy = y - p.cy
+    return (dx * dx) / (p.rx * p.rx) + (dy * dy) / (p.ry * p.ry) < 1 - 1e-5
+}
+
+function pushToForbiddenBoundary(x: number, y: number, p: ForbiddenEllipse): { x: number; y: number } {
+    let dx = x - p.cx
+    let dy = y - p.cy
+    if (Math.abs(dx) < 1e-6 && Math.abs(dy) < 1e-6) {
+        dx = p.rx
+        dy = 0
+    }
+    const n = Math.sqrt((dx / p.rx) ** 2 + (dy / p.ry) ** 2)
+    const s = 1 / Math.max(n, 1e-8)
+    return { x: p.cx + dx * s, y: p.cy + dy * s }
+}
+
+function samplePositionOutsideForbidden(
+    width: number,
+    height: number,
+    forbidden: ForbiddenEllipse | null,
+    maxAttempts = 100
+): { x: number; y: number } {
+    if (!forbidden) {
+        return { x: Math.random() * width, y: Math.random() * height }
+    }
+    for (let i = 0; i < maxAttempts; i++) {
+        const x = Math.random() * width
+        const y = Math.random() * height
+        if (!isInsideForbidden(x, y, forbidden)) return { x, y }
+    }
+    const side = Math.random() < 0.5 ? "left" : "right"
+    const x =
+        side === "left"
+            ? Math.random() * Math.max(0, forbidden.cx - forbidden.rx)
+            : forbidden.cx + forbidden.rx + Math.random() * Math.max(0, width - forbidden.cx - forbidden.rx)
+    const y = Math.random() * height
+    return { x: Math.min(width, Math.max(0, x)), y }
 }
 
 export default function StarField({
     count = 200,
-    speed = 0.05,
     dispersionRadius = 100,
     dispersionForce = 5,
     returnSpeed = 0.02,
     burstSignal = 0,
     className = "fixed inset-0 pointer-events-none z-0",
+    useContentClearZone = false,
+    clearViewportRectRef,
+    clearPaddingPx = 24,
+    clearZoneTick = 0,
 }: StarFieldProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const [stars, setStars] = useState<Star[]>([])
+    const starsRef = useRef<Star[]>([])
+    const mouseRef = useRef<{ x: number; y: number } | null>(null)
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-    const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null)
-    const animationRef = useRef<number>(0)
 
     useEffect(() => {
         const handleResize = () => {
@@ -47,7 +116,9 @@ export default function StarField({
                 canvasRef.current.height = height
                 setDimensions({ width, height })
 
-                // Fewer, subtler stars on small screens (less visual noise on phones).
+                const measured = clearViewportRectRef?.current ?? null
+                const forbidden = buildForbiddenEllipse(width, height, useContentClearZone, measured, clearPaddingPx)
+
                 const effectiveCount =
                     width < 480
                         ? Math.max(50, Math.round(count * 0.22))
@@ -58,18 +129,17 @@ export default function StarField({
 
                 const newStars: Star[] = []
                 for (let i = 0; i < effectiveCount; i++) {
-                    const x = Math.random() * width
-                    const y = Math.random() * height
+                    const { x, y } = samplePositionOutsideForbidden(width, height, forbidden)
                     const size = (Math.random() * 2 + 0.5) * sizeScale
 
                     const colorChoice = Math.random()
                     let color
                     if (colorChoice > 0.8) {
-                        color = "#8CBED6" 
+                        color = "#8CBED6"
                     } else if (colorChoice > 0.6) {
-                        color = "#FFF8E7" 
+                        color = "#FFF8E7"
                     } else {
-                        color = "#FFFFFF" 
+                        color = "#FFFFFF"
                     }
 
                     newStars.push({
@@ -83,18 +153,18 @@ export default function StarField({
                         color,
                     })
                 }
-                setStars(newStars)
+                starsRef.current = newStars
             }
         }
 
         handleResize()
         window.addEventListener("resize", handleResize)
         return () => window.removeEventListener("resize", handleResize)
-    }, [count])
+    }, [count, useContentClearZone, clearPaddingPx, clearZoneTick])
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY })
+            mouseRef.current = { x: e.clientX, y: e.clientY }
         }
 
         window.addEventListener("mousemove", handleMouseMove)
@@ -104,38 +174,45 @@ export default function StarField({
     useEffect(() => {
         if (!burstSignal || dimensions.width === 0 || dimensions.height === 0) return
 
-        const burstPoint = {
+        mouseRef.current = {
             x: dimensions.width / 2,
             y: dimensions.height / 2,
         }
-
-        setMousePosition(burstPoint)
         const timeoutId = window.setTimeout(() => {
-            setMousePosition(null)
+            mouseRef.current = null
         }, 180)
 
         return () => window.clearTimeout(timeoutId)
     }, [burstSignal, dimensions.width, dimensions.height])
 
     useEffect(() => {
-        if (!canvasRef.current || stars.length === 0) return
+        const canvas = canvasRef.current
+        if (!canvas || dimensions.width === 0 || dimensions.height === 0) return
 
-        const ctx = canvasRef.current.getContext("2d")
+        const ctx = canvas.getContext("2d")
         if (!ctx) return
 
-        const animate = () => {
-            ctx.clearRect(0, 0, dimensions.width, dimensions.height)
+        let animationId = 0
 
-            const updatedStars = stars.map((star) => {
+        const animate = () => {
+            const w = dimensions.width
+            const h = dimensions.height
+            const measured = clearViewportRectRef?.current ?? null
+            const forbidden = buildForbiddenEllipse(w, h, useContentClearZone, measured, clearPaddingPx)
+            const mousePosition = mouseRef.current
+            const stars = starsRef.current
+
+            ctx.clearRect(0, 0, w, h)
+
+            for (const star of stars) {
                 let { x, y, vx, vy, originalX, originalY, size, color } = star
 
-                // Dispersion effect if mouse is near
                 if (mousePosition) {
                     const dx = mousePosition.x - x
                     const dy = mousePosition.y - y
                     const distance = Math.sqrt(dx * dx + dy * dy)
 
-                    if (distance < dispersionRadius) {
+                    if (distance < dispersionRadius && distance > 1e-6) {
                         const force = ((dispersionRadius - distance) / dispersionRadius) * dispersionForce
                         vx -= (dx / distance) * force
                         vy -= (dy / distance) * force
@@ -151,43 +228,58 @@ export default function StarField({
                 x += vx
                 y += vy
 
-                // Keep stars visible during burst/dispersal.
-                // If a star reaches an edge, clamp it and dampen the velocity.
                 if (x < 0) {
                     x = 0
                     vx *= -0.35
-                } else if (x > dimensions.width) {
-                    x = dimensions.width
+                } else if (x > w) {
+                    x = w
                     vx *= -0.35
                 }
 
                 if (y < 0) {
                     y = 0
                     vy *= -0.35
-                } else if (y > dimensions.height) {
-                    y = dimensions.height
+                } else if (y > h) {
+                    y = h
                     vy *= -0.35
                 }
+
+                if (forbidden && isInsideForbidden(x, y, forbidden)) {
+                    const out = pushToForbiddenBoundary(x, y, forbidden)
+                    x = out.x
+                    y = out.y
+                    vx *= 0.55
+                    vy *= 0.55
+                }
+
+                star.x = x
+                star.y = y
+                star.vx = vx
+                star.vy = vy
 
                 ctx.beginPath()
                 ctx.arc(x, y, size, 0, Math.PI * 2)
                 ctx.fillStyle = color
                 ctx.fill()
+            }
 
-                return { ...star, x, y, vx, vy }
-            })
-
-            setStars(updatedStars)
-            animationRef.current = requestAnimationFrame(animate)
+            animationId = requestAnimationFrame(animate)
         }
 
-        animationRef.current = requestAnimationFrame(animate)
+        animationId = requestAnimationFrame(animate)
 
         return () => {
-            cancelAnimationFrame(animationRef.current)
+            cancelAnimationFrame(animationId)
         }
-    }, [stars, mousePosition, dimensions, dispersionRadius, dispersionForce, returnSpeed])
+    }, [
+        dimensions.width,
+        dimensions.height,
+        dispersionRadius,
+        dispersionForce,
+        returnSpeed,
+        useContentClearZone,
+        clearPaddingPx,
+    ])
 
     return <canvas ref={canvasRef} className={className} />
 }
-

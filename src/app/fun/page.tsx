@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { GoodreadsIcon, InstagramIcon, LetterboxdIcon } from '../../components/BrandIcons'
 import Gradient from '../../components/Gradient'
 import SiteNav from '../../components/SiteNav'
+import StarClearZone from '../../components/StarClearZone'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
 const favoriteMovies = [
@@ -57,7 +58,7 @@ export default function FunPage() {
                 </div>
             </div>
 
-            <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
+            <StarClearZone className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
                 <p className="text-sm uppercase tracking-[0.14em] text-blue-200">Il faut cultiver notre jardin.</p>
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6 lg:items-stretch">
@@ -168,7 +169,7 @@ export default function FunPage() {
                     </div>
                 </section>
                 </div>
-            </div>
+            </StarClearZone>
         </main>
     )
 }

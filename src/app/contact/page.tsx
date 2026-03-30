@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Gradient from '../../components/Gradient'
 import SiteNav from '../../components/SiteNav'
+import StarClearZone from '../../components/StarClearZone'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
 export default function ContactPage() {
@@ -25,7 +26,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <div className="relative z-10 mx-auto w-full max-w-5xl">
+            <StarClearZone className="relative z-10 mx-auto w-full max-w-5xl">
                 <section className="border border-gray-700/70 bg-gray-900/40 p-6">
                     <p className="text-sm text-gray-300">
                         You can reach out to me at{' '}
@@ -83,7 +84,7 @@ export default function ContactPage() {
                         </ul>
                     </div>
                 </section>
-            </div>
+            </StarClearZone>
         </main>
     )
 }

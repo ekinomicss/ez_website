@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Gradient from '../../components/Gradient'
 import SiteNav from '../../components/SiteNav'
+import StarClearZone from '../../components/StarClearZone'
 import { useStarBurst } from '../../components/StarBackgroundProvider'
 
 export default function AboutPage() {
@@ -75,7 +76,7 @@ export default function AboutPage() {
                     <SiteNav onNavigate={navigateWithBurst} />
                 </div>
             </div>
-            <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
+            <StarClearZone className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10">
                 <section className="border border-gray-700/70 bg-gray-900/40 p-6">
                     <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">Currently: Research Engineer @ UK AISI</h2>
                     <p className="mt-3 text-sm italic text-blue-200">
@@ -159,7 +160,7 @@ export default function AboutPage() {
                         ))}
                     </div>
                 </section>
-            </div>
+            </StarClearZone>
         </main>
     )
 }
