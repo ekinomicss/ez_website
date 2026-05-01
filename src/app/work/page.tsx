@@ -36,10 +36,10 @@ export default function WorkPage() {
         {
             date: 'Feb 25, 2026',
             title: 'Seven simple steps for log analysis in AI systems',
-            venue: 'TechRxiv',
+            venue: 'arXiv (cs.AI)',
             role: 'Co-author',
             links: [
-                { label: 'Paper', href: 'https://www.techrxiv.org/users/1032063/articles/1391870-seven-simple-steps-for-log-analysis-in-ai-systems' },
+                { label: 'Paper', href: 'https://arxiv.org/abs/2604.09563' },
                 { label: 'AISI page', href: 'https://www.aisi.gov.uk/research/seven-simple-steps-for-log-analysis-in-ai-systems' },
             ],
             highlights: [

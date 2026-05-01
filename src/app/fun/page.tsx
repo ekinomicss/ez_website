@@ -140,6 +140,7 @@ export default function FunPage() {
                                 <li className="marker:text-blue-300">OMA</li>
                                 <li className="marker:text-blue-300">Roti King</li>
                                 <li className="marker:text-blue-300">Rogues.</li>
+                                <li className="marker:text-blue-300">Speedboat Bar</li>
                                 <li className="marker:text-blue-300">King Cook Daily</li>
                             </ul>
                         </div>
