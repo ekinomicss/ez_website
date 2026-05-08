@@ -323,7 +323,7 @@ export default function SiteScrollPage() {
                         <div className="flex flex-col gap-4">
                         <section className={funSubsectionBox}>
                             <button type="button" onClick={() => toggleFun('movies')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('movies')}>
-                                <h2 className={`${aboutSubsectionTitle} leading-tight`}>Favorite movies</h2>
+                                <h2 className={`${aboutSubsectionTitle} leading-tight`}>Movies that ground me</h2>
                                 <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('movies') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
                             </button>
                             <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('movies') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
@@ -382,7 +382,7 @@ export default function SiteScrollPage() {
 
                         <section className={funSubsectionBox}>
                             <button type="button" onClick={() => toggleFun('restaurants')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('restaurants')}>
-                                <h2 className={aboutSubsectionTitle}>Restaurants</h2>
+                                <h2 className={aboutSubsectionTitle}>Restaurants in my cities</h2>
                                 <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('restaurants') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
                             </button>
                             <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('restaurants') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
