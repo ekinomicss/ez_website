@@ -183,8 +183,8 @@ export default function SiteScrollPage() {
 
     return (
         <main className="relative min-h-screen bg-gray-800 text-gray-100">
-            <header className="sticky top-0 z-40 border-b border-gray-700/50 bg-gray-800/92 px-4 py-3 backdrop-blur-md sm:px-6">
-                <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <header className="sticky top-0 z-40 border-b border-gray-700/50 bg-gray-800/92 px-4 py-2 backdrop-blur-md sm:px-6 sm:py-3">
+                <div className="mx-auto flex max-w-5xl flex-col gap-1.5 sm:flex-row sm:gap-3 sm:items-start sm:justify-between">
                     <Gradient onLogoClick={goToLanding} />
                     <SiteNav onNavigate={navigateToHash} activeHash={activeHash} disabled={navBusy} showCaret={cursorTarget === 'nav'} className="sm:pt-1" />
                 </div>
