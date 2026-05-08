@@ -38,10 +38,10 @@ export function useRegisterStarClearZone() {
 }
 
 export default function StarBackgroundProvider({ children }: { children: React.ReactNode }) {
-    const [burstSignal, setBurstSignal] = useState(0)
     const pathname = usePathname()
-    const isHome = pathname === '/'
+    const useContentClearZone = pathname === '/site'
 
+    const [burstSignal, setBurstSignal] = useState(0)
     const [clearZoneEl, setClearZoneEl] = useState<HTMLElement | null>(null)
     const clearViewportRectRef = useRef<ViewportClearRect | null>(null)
     const [clearZoneTick, setClearZoneTick] = useState(0)
@@ -97,7 +97,7 @@ export default function StarBackgroundProvider({ children }: { children: React.R
                 dispersionRadius={120}
                 dispersionForce={6}
                 burstSignal={burstSignal}
-                useContentClearZone={!isHome}
+                useContentClearZone={useContentClearZone}
                 clearViewportRectRef={clearViewportRectRef}
                 clearPaddingPx={28}
                 clearZoneTick={clearZoneTick}

@@ -1,22 +1,18 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-
-const navLinks: { path: string; label: string }[] = [
-    { path: '/about', label: 'About' },
-    { path: '/work', label: 'Work' },
-    { path: '/fun', label: 'Fun' },
-    { path: '/contact', label: 'Contact' },
+const navLinks: { hash: string; label: string }[] = [
+    { hash: '#about', label: 'About' },
+    { hash: '#work', label: 'Work' },
+    { hash: '#fun', label: 'Fun' },
+    { hash: '#contact', label: 'Contact' },
 ]
 
-/** Flat “shell line” — no shadows, no gradient box */
 const buttonBase =
     'group inline-flex items-center gap-1.5 border-l-2 border-transparent bg-transparent py-1.5 pl-2 pr-3 font-mono text-[13px] font-normal tracking-tight text-slate-200 transition-[color,background-color,border-color] duration-150 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-emerald-500/60 disabled:pointer-events-none disabled:opacity-40'
 
 const buttonHover =
     'hover:border-l-emerald-400/80 hover:bg-emerald-500/[0.07] hover:text-emerald-100'
 
-/** Current page: same family as hover, slightly stronger bar + tint */
 const buttonActive = 'border-l-emerald-400 bg-emerald-500/[0.1] text-emerald-50'
 
 const blogSoonClass =
@@ -29,28 +25,27 @@ const caretClass =
     'pointer-events-none ml-0.5 inline-block h-[0.85em] w-[2px] shrink-0 translate-y-[0.06em] rounded-[1px] bg-current opacity-0 group-hover:animate-caret-blink group-data-[active=true]:animate-caret-blink motion-reduce:group-hover:animate-none motion-reduce:group-data-[active=true]:animate-none motion-reduce:group-hover:opacity-100 motion-reduce:group-data-[active=true]:opacity-100'
 
 type SiteNavProps = {
-    onNavigate: (path: string) => void
+    onNavigate: (hash: string) => void
+    activeHash: string
     disabled?: boolean
     className?: string
 }
 
-export default function SiteNav({ onNavigate, disabled, className }: SiteNavProps) {
-    const pathname = usePathname()
-
+export default function SiteNav({ onNavigate, activeHash, disabled, className }: SiteNavProps) {
     return (
         <nav
             className={className ?? 'flex flex-wrap items-stretch gap-x-1 gap-y-1'}
-            aria-label="Site"
+            aria-label="Site sections"
         >
-            {navLinks.map(({ path, label }) => {
-                const isActive = pathname === path
+            {navLinks.map(({ hash, label }) => {
+                const isActive = activeHash === hash
                 return (
                     <button
-                        key={path}
+                        key={hash}
                         type="button"
-                        onClick={() => onNavigate(path)}
+                        onClick={() => onNavigate(hash)}
                         disabled={disabled}
-                        aria-current={isActive ? 'page' : undefined}
+                        aria-current={isActive ? 'true' : undefined}
                         data-active={isActive ? 'true' : undefined}
                         className={`${buttonBase} ${buttonHover} ${isActive ? buttonActive : ''}`}
                     >

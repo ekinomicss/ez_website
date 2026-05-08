@@ -10,8 +10,13 @@ export default function PageTransition({ children }: { children: React.ReactNode
     const isFirstPaint = prevPathRef.current === null
     const prevPath = prevPathRef.current
     const routeChanged = !isFirstPaint && prevPath !== pathname
-    /** Fade when home is involved (to or from); other cross-page moves stay instant */
-    const shouldFade = routeChanged && (pathname === '/' || prevPath === '/')
+    /** Fade when landing (`/`) or scroll site (`/site`) is involved */
+    const shouldFade =
+        routeChanged &&
+        (pathname === '/' ||
+            prevPath === '/' ||
+            pathname === '/site' ||
+            prevPath === '/site')
 
     useEffect(() => {
         prevPathRef.current = pathname
