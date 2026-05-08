@@ -99,7 +99,7 @@ export default function StarBackgroundProvider({ children }: { children: React.R
                 burstSignal={burstSignal}
                 useContentClearZone={useContentClearZone}
                 clearViewportRectRef={clearViewportRectRef}
-                clearPaddingPx={28}
+                clearPaddingPx={64}
                 clearZoneTick={clearZoneTick}
                 className="fixed inset-0 pointer-events-none z-30 opacity-80 max-md:opacity-45 max-sm:opacity-35"
             />

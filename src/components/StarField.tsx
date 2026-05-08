@@ -22,7 +22,7 @@ interface StarFieldProps {
     returnSpeed?: number
     burstSignal?: number
     className?: string
-    /** When true and `clearViewportRectRef` has a valid rect, stars avoid that ellipse (plus padding). */
+    /** When true and `clearViewportRectRef` has a valid rect, stars avoid the content column (plus padding). */
     useContentClearZone?: boolean
     clearViewportRectRef?: MutableRefObject<ViewportClearRect | null>
     clearPaddingPx?: number
@@ -30,47 +30,47 @@ interface StarFieldProps {
     clearZoneTick?: number
 }
 
-type ForbiddenEllipse = { cx: number; cy: number; rx: number; ry: number }
+type ForbiddenZone = { left: number; right: number; top: number; bottom: number }
 
-function buildForbiddenEllipse(
+function buildForbiddenZone(
     width: number,
     height: number,
     useContentClearZone: boolean,
     measured: ViewportClearRect | null,
     clearPaddingPx: number
-): ForbiddenEllipse | null {
+): ForbiddenZone | null {
     if (!useContentClearZone || width <= 0 || height <= 0) return null
     if (!measured || measured.width < 4 || measured.height < 4) return null
 
-    const cx = measured.left + measured.width / 2
-    const cy = measured.top + measured.height / 2
-    const rx = Math.max(8, measured.width / 2 + clearPaddingPx)
-    const ry = Math.max(8, measured.height / 2 + clearPaddingPx)
-    return { cx, cy, rx, ry }
-}
-
-function isInsideForbidden(x: number, y: number, p: ForbiddenEllipse): boolean {
-    const dx = x - p.cx
-    const dy = y - p.cy
-    return (dx * dx) / (p.rx * p.rx) + (dy * dy) / (p.ry * p.ry) < 1 - 1e-5
-}
-
-function pushToForbiddenBoundary(x: number, y: number, p: ForbiddenEllipse): { x: number; y: number } {
-    let dx = x - p.cx
-    let dy = y - p.cy
-    if (Math.abs(dx) < 1e-6 && Math.abs(dy) < 1e-6) {
-        dx = p.rx
-        dy = 0
+    return {
+        left: measured.left - clearPaddingPx,
+        right: measured.left + measured.width + clearPaddingPx,
+        top: measured.top + 80,
+        bottom: measured.top + measured.height + clearPaddingPx,
     }
-    const n = Math.sqrt((dx / p.rx) ** 2 + (dy / p.ry) ** 2)
-    const s = 1 / Math.max(n, 1e-8)
-    return { x: p.cx + dx * s, y: p.cy + dy * s }
+}
+
+function isInsideForbidden(x: number, y: number, zone: ForbiddenZone): boolean {
+    return x > zone.left && x < zone.right && y > zone.top && y < zone.bottom
+}
+
+function pushToForbiddenBoundary(x: number, y: number, zone: ForbiddenZone): { x: number; y: number } {
+    const dL = x - zone.left
+    const dR = zone.right - x
+    const dT = y - zone.top
+    const dB = zone.bottom - y
+    const min = Math.min(dL, dR, dT, dB)
+
+    if (min === dL) return { x: zone.left, y }
+    if (min === dR) return { x: zone.right, y }
+    if (min === dT) return { x, y: zone.top }
+    return { x, y: zone.bottom }
 }
 
 function samplePositionOutsideForbidden(
     width: number,
     height: number,
-    forbidden: ForbiddenEllipse | null,
+    forbidden: ForbiddenZone | null,
     maxAttempts = 100
 ): { x: number; y: number } {
     if (!forbidden) {
@@ -84,8 +84,8 @@ function samplePositionOutsideForbidden(
     const side = Math.random() < 0.5 ? "left" : "right"
     const x =
         side === "left"
-            ? Math.random() * Math.max(0, forbidden.cx - forbidden.rx)
-            : forbidden.cx + forbidden.rx + Math.random() * Math.max(0, width - forbidden.cx - forbidden.rx)
+            ? Math.random() * Math.max(0, forbidden.left)
+            : forbidden.right + Math.random() * Math.max(0, width - forbidden.right)
     const y = Math.random() * height
     return { x: Math.min(width, Math.max(0, x)), y }
 }
@@ -117,7 +117,7 @@ export default function StarField({
                 setDimensions({ width, height })
 
                 const measured = clearViewportRectRef?.current ?? null
-                const forbidden = buildForbiddenEllipse(width, height, useContentClearZone, measured, clearPaddingPx)
+                const forbidden = buildForbiddenZone(width, height, useContentClearZone, measured, clearPaddingPx)
 
                 const effectiveCount =
                     width < 480
@@ -198,7 +198,7 @@ export default function StarField({
             const w = dimensions.width
             const h = dimensions.height
             const measured = clearViewportRectRef?.current ?? null
-            const forbidden = buildForbiddenEllipse(w, h, useContentClearZone, measured, clearPaddingPx)
+            const forbidden = buildForbiddenZone(w, h, useContentClearZone, measured, clearPaddingPx)
             const mousePosition = mouseRef.current
             const stars = starsRef.current
 
