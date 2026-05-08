@@ -44,8 +44,9 @@ const favoriteBooks: { title: string; author: string }[] = [
 const currentMusicObsession = [
     'Arcade Fire',
     'Altın Gün',
-    'Angine de poitrine',
+    'Angine de Poitrine',
     'Tame Impala — new album',
+    'Doja Cat — new album',
 ] as const
 
 const NAV_HASHES = ['#about', '#work', '#fun', '#contact'] as const
@@ -66,10 +67,9 @@ const SECTION_LABEL_CLASS =
 const aboutSubsectionBox =
     'flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-4 sm:p-5'
 
-const aboutSubsectionTitle = 'text-base font-semibold uppercase tracking-[0.12em] text-blue-200 sm:text-lg'
+const aboutSubsectionTitle = 'text-sm font-semibold tracking-wide text-blue-200'
 
-/** Fun grid: stretch to match tallest card in the row (e.g. Restaurants). */
-const funSubsectionBox = `${aboutSubsectionBox} h-full min-h-0`
+const funSubsectionBox = aboutSubsectionBox
 
 export default function SiteScrollPage() {
     const router = useRouter()
@@ -79,6 +79,16 @@ export default function SiteScrollPage() {
     const [cursorTarget, setCursorTarget] = useState<'heading' | 'nav'>('heading')
     const cursorTargetRef = useRef<'heading' | 'nav'>('heading')
     const intersectingRef = useRef(new Set<string>())
+    const [expandedFun, setExpandedFun] = useState<Set<string>>(new Set())
+
+    const toggleFun = useCallback((key: string) => {
+        setExpandedFun(prev => {
+            const next = new Set(prev)
+            if (next.has(key)) next.delete(key)
+            else next.add(key)
+            return next
+        })
+    }, [])
 
     const updateCursorTarget = useCallback((target: 'heading' | 'nav') => {
         cursorTargetRef.current = target
@@ -245,10 +255,6 @@ export default function SiteScrollPage() {
                     <header className="mb-1">
                         <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#work'}>Work</SectionHeading>
                     </header>
-                    <p className="text-sm uppercase tracking-[0.14em] text-blue-200">
-                        (...that is public enough to share)
-                    </p>
-
                     <div className="space-y-5">
                         {workBlocks.map((item) => (
                             <article key={item.title} className="border border-gray-700/70 bg-gray-900/45 p-5">
@@ -313,130 +319,154 @@ export default function SiteScrollPage() {
                         <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#fun'}>Fun</SectionHeading>
                     </header>
 
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch xl:grid-cols-4 lg:gap-5">
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch lg:gap-5">
+                        <div className="flex flex-col gap-4">
                         <section className={funSubsectionBox}>
-                            <h2 className={`${aboutSubsectionTitle} leading-tight`}>Favorite movies</h2>
-                            <a
-                                href="https://letterboxd.com/eqeen/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
-                            >
-                                <LetterboxdIcon className="h-6 w-6 shrink-0 text-[#00e054]" />
-                                <span className="min-w-0">
-                                    <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
-                                        Letterboxd
-                                    </span>{' '}
-                                    - follow my film diary
-                                </span>
-                            </a>
-                            <ul className="mt-2 list-disc space-y-1 break-words pl-4 text-xs leading-snug text-gray-300">
-                                {favoriteMovies.map((title) => (
-                                    <li key={title} className="marker:text-blue-300">
-                                        <span className="font-medium text-gray-100">{title}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </section>
-
-                        <section className={funSubsectionBox}>
-                            <h2 className={aboutSubsectionTitle}>Favorite books</h2>
-                            <a
-                                href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-3 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
-                            >
-                                <GoodreadsIcon className="h-6 w-6 shrink-0 text-[#e9e5cd]" />
-                                <span className="min-w-0">
-                                    <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
-                                        Goodreads
-                                    </span>{' '}
-                                    - follow my reading
-                                </span>
-                            </a>
-                            <ul className="mt-3 list-disc space-y-1.5 break-words pl-4 text-xs leading-snug text-gray-300">
-                                {favoriteBooks.map((b) => (
-                                    <li key={b.title} className="marker:text-blue-300">
-                                        <span className="font-medium text-gray-100">{b.title}</span>
-                                        <span className="mt-0.5 block text-[11px] leading-snug text-gray-500">{b.author}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </section>
-
-                        <section className={funSubsectionBox}>
-                            <h2 className={aboutSubsectionTitle}>Restaurants</h2>
-                            <div className="mt-3 min-w-0 overflow-x-auto">
-                                <a
-                                    href="https://www.instagram.com/plsfixenyc/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex w-max max-w-none flex-nowrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
-                                >
-                                    <InstagramIcon className="h-6 w-6 shrink-0 text-[#E4405F]" />
-                                    <span className="whitespace-nowrap">
+                            <button type="button" onClick={() => toggleFun('movies')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('movies')}>
+                                <h2 className={`${aboutSubsectionTitle} leading-tight`}>Favorite movies</h2>
+                                <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('movies') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
+                            </button>
+                            <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('movies') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                                <div className="overflow-hidden">
+                                    <a
+                                        href="https://letterboxd.com/eqeen/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="mt-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
+                                    >
+                                        <LetterboxdIcon className="h-6 w-6 shrink-0 text-[#00e054]" />
                                         <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
-                                            Instagram
-                                        </span>{' '}
-                                        - inactive NYC food blog
-                                    </span>
-                                </a>
-                            </div>
-
-                            <div className="mt-3 space-y-4">
-                                <div>
-                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
-                                        London
-                                    </h3>
-                                    <p className="text-[11px] leading-snug text-gray-500">Lived ~1 year and still here!</p>
-                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
-                                        <li className="marker:text-blue-300">OMA</li>
-                                        <li className="marker:text-blue-300">Roti King</li>
-                                        <li className="marker:text-blue-300">Rogues.</li>
-                                        <li className="marker:text-blue-300">Speedboat Bar</li>
-                                        <li className="marker:text-blue-300">King Cook Daily</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
-                                        New York City
-                                    </h3>
-                                    <p className="text-[11px] leading-snug text-gray-500">Lived ~4 years</p>
-                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
-                                        <li className="marker:text-blue-300">Birds of a Feather</li>
-                                        <li className="marker:text-blue-300">Kopitiam</li>
-                                        <li className="marker:text-blue-300">The Noortwyck</li>
-                                        <li className="marker:text-blue-300">I Sodi</li>
-                                        <li className="marker:text-blue-300">Kiki&apos;s</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
-                                        Istanbul
-                                    </h3>
-                                    <p className="text-[11px] leading-snug text-gray-500">Born &amp; raised</p>
-                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
-                                        <li className="marker:text-blue-300">Bayramoğlu</li>
-                                        <li className="marker:text-blue-300">Karaköy Lokantası</li>
-                                        <li className="marker:text-blue-300">Mükellef Karaköy</li>
-                                        <li className="marker:text-blue-300">Mangerie</li>
+                                            Letterboxd
+                                        </span>
+                                    </a>
+                                    <ul className="mt-2 list-disc space-y-1 break-words pl-4 text-xs leading-snug text-gray-300">
+                                        {favoriteMovies.map((title) => (
+                                            <li key={title} className="marker:text-blue-300">
+                                                <span className="font-medium text-gray-100">{title}</span>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
                         </section>
 
                         <section className={funSubsectionBox}>
-                            <h2 className={aboutSubsectionTitle}>Current music obsession</h2>
-                            <ul
-                                className="mt-3 list-none space-y-1 border-l border-emerald-500/25 pl-2.5 text-xs leading-snug text-gray-300"
-                                role="list"
-                            >
-                                {currentMusicObsession.map((name) => (
-                                    <li key={name}>{name}</li>
-                                ))}
-                            </ul>
+                            <button type="button" onClick={() => toggleFun('books')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('books')}>
+                                <h2 className={aboutSubsectionTitle}>Favorite books</h2>
+                                <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('books') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
+                            </button>
+                            <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('books') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                                <div className="overflow-hidden">
+                                    <a
+                                        href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="mt-3 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
+                                    >
+                                        <GoodreadsIcon className="h-6 w-6 shrink-0 text-[#e9e5cd]" />
+                                        <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
+                                            Goodreads
+                                        </span>
+                                    </a>
+                                    <ul className="mt-3 list-disc space-y-1.5 break-words pl-4 text-xs leading-snug text-gray-300">
+                                        {favoriteBooks.map((b) => (
+                                            <li key={b.title} className="marker:text-blue-300">
+                                                <span className="font-medium text-gray-100">{b.title}</span>
+                                                <span className="mt-0.5 block text-[11px] leading-snug text-gray-500">{b.author}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
                         </section>
+
+                        <section className={funSubsectionBox}>
+                            <button type="button" onClick={() => toggleFun('restaurants')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('restaurants')}>
+                                <h2 className={aboutSubsectionTitle}>Restaurants</h2>
+                                <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('restaurants') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
+                            </button>
+                            <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('restaurants') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                                <div className="overflow-hidden">
+                                    <div className="mt-3 min-w-0 overflow-x-auto">
+                                        <a
+                                            href="https://www.instagram.com/plsfixenyc/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex w-max max-w-none flex-nowrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
+                                        >
+                                            <InstagramIcon className="h-6 w-6 shrink-0 text-[#E4405F]" />
+                                            <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
+                                                Instagram
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div className="mt-3 space-y-4">
+                                        <div>
+                                            <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">London</h3>
+                                            <p className="text-[11px] leading-snug text-gray-500">Lived ~1 year and still here!</p>
+                                            <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
+                                                <li className="marker:text-blue-300">OMA</li>
+                                                <li className="marker:text-blue-300">Roti King</li>
+                                                <li className="marker:text-blue-300">Rogues.</li>
+                                                <li className="marker:text-blue-300">Speedboat Bar</li>
+                                                <li className="marker:text-blue-300">King Cook Daily</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">New York City</h3>
+                                            <p className="text-[11px] leading-snug text-gray-500">Lived ~4 years</p>
+                                            <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
+                                                <li className="marker:text-blue-300">Birds of a Feather</li>
+                                                <li className="marker:text-blue-300">Kopitiam</li>
+                                                <li className="marker:text-blue-300">The Noortwyck</li>
+                                                <li className="marker:text-blue-300">I Sodi</li>
+                                                <li className="marker:text-blue-300">Kiki&apos;s</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">Istanbul</h3>
+                                            <p className="text-[11px] leading-snug text-gray-500">Born &amp; raised</p>
+                                            <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
+                                                <li className="marker:text-blue-300">Bayramoğlu</li>
+                                                <li className="marker:text-blue-300">Karaköy Lokantası</li>
+                                                <li className="marker:text-blue-300">Mükellef Karaköy</li>
+                                                <li className="marker:text-blue-300">Mangerie</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className={funSubsectionBox}>
+                            <button type="button" onClick={() => toggleFun('music')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('music')}>
+                                <h2 className={aboutSubsectionTitle}>Current music obsession</h2>
+                                <span className={`shrink-0 font-mono text-sm text-emerald-500 transition-transform duration-200 ${expandedFun.has('music') ? 'rotate-90' : ''}`} aria-hidden>&gt;</span>
+                            </button>
+                            <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${expandedFun.has('music') ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                                <div className="overflow-hidden">
+                                    <ul className="mt-3 list-disc space-y-1 break-words pl-4 text-xs leading-snug text-gray-300">
+                                        {currentMusicObsession.map((name) => (
+                                            <li key={name} className="marker:text-blue-300">
+                                                <span className="font-medium text-gray-100">{name}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        </div>
+
+                        <div className={`${aboutSubsectionBox} items-center justify-center`}>
+                            <p className="text-sm leading-relaxed text-gray-300">
+                                I recharge by consuming arts and media, exploring nature and participating in team sports. Sharing
+                                these with others is probably my favorite way to connect with new friends. Sometimes I get too excited about them. I think it&apos;s worth chronicling what I learn or feel
+                                from the consumption as I change a little bit with each experience. Art also
+                                keeps me grounded about my own life trajectory; it pulls me back to the seemingly trivial moments that
+                                remind me what stays constant. And it sharpens my sensitivities to others so I don&apos;t get sucked
+                                into the tech-bro black hole of evil machine learnery x)
+                            </p>
+                        </div>
                     </div>
                 </section>
 
