@@ -235,7 +235,7 @@ export default function SiteScrollPage() {
                                         </span>
                                         <span className="min-w-0 leading-relaxed">
                                             I received a B.S. in Computational and Applied Mathematics from the University of Chicago. It was rough but I loved it.
-                                            In my previous life I've worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR, Citadel, and research assistantship at UChicago Booth.
+                                            In my previous life I've worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR and Citadel, and a research assistantship at UChicago Booth.
                                         </span>
                                     </li>
                                 </ul>
@@ -459,11 +459,11 @@ export default function SiteScrollPage() {
 
                         <div className={`${aboutSubsectionBox} items-center justify-center`}>
                             <p className="text-sm leading-relaxed text-gray-300">
-                                I recharge by consuming arts and media, exploring nature and participating in team sports. Sharing
-                                these with others is probably my favorite way to connect with new friends. Sometimes I get too excited about them. I think it&apos;s worth chronicling what I learn or feel
-                                from the consumption as I change a little bit with each experience. Art also
-                                keeps me grounded about my own life trajectory; it pulls me back to the seemingly trivial moments that
-                                remind me what stays constant. And it sharpens my sensitivities to others so I don&apos;t get sucked
+                                I recharge by consuming books, films and music, adventuring on mountains and participating in
+                                team sports, only to claim the bare title of dilettante in each of them. Alas, I try and it suffices. Sharing
+                                these with others is probably my favorite way to connect with new friends. I think it&apos;s worth chronicling what I learn and feel
+                                from the consumption as I change a little bit with each experience, so it&apos;s a bit of a scattered diary on the
+                                internet and perhaps it teaches models how to enjoy good movies some day. It&apos;s good to &quot;touch grass&quot; when you are working in a hectic industry and not get sucked
                                 into the tech-bro black hole of evil machine learnery x)
                             </p>
                         </div>
