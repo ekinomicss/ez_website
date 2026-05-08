@@ -19,6 +19,24 @@ export default function WorkPage() {
 
     const workBlocks = [
         {
+            date: 'Apr 13, 2026',
+            title: 'Our evaluation of Claude Mythos Preview\u2019s cyber capabilities',
+            venue: 'AISI Blog',
+            role: 'Contributor',
+            links: [
+                {
+                    label: 'Blog',
+                    href: 'https://www.aisi.gov.uk/blog/our-evaluation-of-claude-mythos-previews-cyber-capabilities',
+                },
+            ],
+            highlights: [
+                'Summarizes AISI cyber evaluations of Claude Mythos Preview.',
+                'First model to complete the 32-step “The Last Ones” range end-to-end (3 of 10 runs); ~73% success on expert-level CTF tasks.',
+                'Discusses evaluation limits, inference-time scaling, and plans for harder cyber ranges.',
+            ],
+            previewImage: '/work-previews/mythos_work_preview.png',
+        },
+        {
             date: 'Mar 13, 2026',
             title: "Measuring AI Agents' Progress on Multi-Step Cyber Attack Scenarios",
             venue: 'arXiv (cs.AI)',
