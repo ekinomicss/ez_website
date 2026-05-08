@@ -8,7 +8,7 @@ import StarClearZone from './StarClearZone'
 import { useStarBurst } from './StarBackgroundProvider'
 import { workBlocks } from '../data/work-blocks'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const favoriteMovies = [
     '2001: A Space Odyssey (1968)',
@@ -41,55 +41,12 @@ const favoriteBooks: { title: string; author: string }[] = [
     { title: 'East of Eden', author: 'John Steinbeck' },
 ]
 
-const education = [
-    {
-        title: 'The University of Chicago - B.S. Computational and Applied Mathematics',
-        location: 'Chicago, IL',
-        date: 'Sep 2016 - Jun 2020',
-        bullets: [
-            "Dean's List, Howell Murray Alumni Association Award, Financial Markets Program Fellow",
-            'President (prev. Head of Research), Promontory Investment Research',
-            'Events Lead (prev. Head of Finance), compileHer',
-            'Part-time work across UChicago Med, Group One Trading, Citadel, and Booth',
-        ],
-    },
-]
-
-const previousLife = [
-    {
-        title: 'Walleye Capital - Analytics Developer, Central Platform Team',
-        location: 'New York City, NY',
-        date: 'Apr 2023 - Jun 2024',
-    },
-    {
-        title: 'AQR Capital Management - Research Analyst, Portfolio Solutions Group',
-        location: 'Greenwich, CT',
-        date: 'Jul 2020 - Jan 2023',
-    },
-]
-
-const internships = [
-    {
-        title: 'University of Chicago Booth - Research Assistant to Prof. Ralph Koijen',
-        location: 'Chicago, IL',
-        date: 'Jan 2020 - Jun 2020',
-    },
-    {
-        title: 'AQR Capital Management - Summer Analyst, Portfolio Solutions Group',
-        location: 'Greenwich, CT',
-        date: 'Jun – Aug 2019',
-    },
-    {
-        title: 'Group One Trading - Academic Year Trading Analyst Intern',
-        location: 'Chicago, IL',
-        date: 'Sep – Dec 2018',
-    },
-    {
-        title: 'Citadel LLC - Data Analyst (Part-time & Summer Intern)',
-        location: 'Chicago, IL',
-        date: 'Feb - Aug 2018',
-    },
-]
+const currentMusicObsession = [
+    'Arcade Fire',
+    'Altın Gün',
+    'Angine de poitrine',
+    'Tame Impala — new album',
+] as const
 
 const NAV_HASHES = ['#about', '#work', '#fun', '#contact'] as const
 
@@ -102,11 +59,31 @@ function siteUrl(hash: string): string {
     return `/site${hash}`
 }
 
+/** Main section labels only: matches SiteNav “active” bar + tint. */
+const SECTION_LABEL_CLASS =
+    'inline-flex w-max max-w-full items-center border-l-2 border-emerald-400 bg-emerald-500/10 py-1.5 pl-2 pr-3 font-mono text-[15px] font-normal uppercase tracking-[0.14em] text-emerald-100 sm:text-[16px]'
+
+const aboutSubsectionBox =
+    'flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-4 sm:p-5'
+
+const aboutSubsectionTitle = 'text-base font-semibold uppercase tracking-[0.12em] text-blue-200 sm:text-lg'
+
+/** Fun grid: stretch to match tallest card in the row (e.g. Restaurants). */
+const funSubsectionBox = `${aboutSubsectionBox} h-full min-h-0`
+
 export default function SiteScrollPage() {
     const router = useRouter()
     const { triggerBurst } = useStarBurst()
     const [activeHash, setActiveHash] = useState('#about')
     const [navBusy, setNavBusy] = useState(false)
+    const [cursorTarget, setCursorTarget] = useState<'heading' | 'nav'>('heading')
+    const cursorTargetRef = useRef<'heading' | 'nav'>('heading')
+    const intersectingRef = useRef(new Set<string>())
+
+    const updateCursorTarget = useCallback((target: 'heading' | 'nav') => {
+        cursorTargetRef.current = target
+        setCursorTarget(target)
+    }, [])
 
     useEffect(() => {
         const sync = () => {
@@ -131,6 +108,41 @@ export default function SiteScrollPage() {
         })
     }, [])
 
+    useEffect(() => {
+        const sectionIds = ['about', 'work', 'fun', 'contact']
+        const elements = sectionIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) intersectingRef.current.add(entry.target.id)
+                    else intersectingRef.current.delete(entry.target.id)
+                })
+                if (cursorTargetRef.current !== 'heading') return
+                const active = sectionIds.find(id => intersectingRef.current.has(id))
+                if (active) {
+                    const hash = `#${active}`
+                    setActiveHash(hash)
+                    window.history.replaceState(null, '', siteUrl(hash))
+                }
+            },
+            { rootMargin: '-80px 0px -55% 0px', threshold: 0 }
+        )
+
+        elements.forEach(el => observer.observe(el))
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
+        const onUserScroll = () => updateCursorTarget('heading')
+        window.addEventListener('wheel', onUserScroll, { passive: true })
+        window.addEventListener('touchmove', onUserScroll, { passive: true })
+        return () => {
+            window.removeEventListener('wheel', onUserScroll)
+            window.removeEventListener('touchmove', onUserScroll)
+        }
+    }, [updateCursorTarget])
+
     const goToLanding = useCallback(() => {
         if (navBusy) return
         setNavBusy(true)
@@ -147,6 +159,7 @@ export default function SiteScrollPage() {
             const target = normalizeNavHash(hash)
             setNavBusy(true)
             triggerBurst()
+            updateCursorTarget('nav')
             window.setTimeout(() => {
                 const id = target.slice(1)
                 document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -155,7 +168,7 @@ export default function SiteScrollPage() {
                 setNavBusy(false)
             }, 180)
         },
-        [navBusy, triggerBurst]
+        [navBusy, triggerBurst, updateCursorTarget]
     )
 
     return (
@@ -163,109 +176,78 @@ export default function SiteScrollPage() {
             <header className="sticky top-0 z-40 border-b border-gray-700/50 bg-gray-800/92 px-4 py-3 backdrop-blur-md sm:px-6">
                 <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <Gradient onLogoClick={goToLanding} />
-                    <SiteNav onNavigate={navigateToHash} activeHash={activeHash} disabled={navBusy} className="sm:pt-1" />
+                    <SiteNav onNavigate={navigateToHash} activeHash={activeHash} disabled={navBusy} showCaret={cursorTarget === 'nav'} className="sm:pt-1" />
                 </div>
             </header>
 
             <StarClearZone className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-20 pt-10 sm:pt-12">
                 <section id="about" className="scroll-mt-36 flex flex-col gap-10 sm:scroll-mt-32">
+                    <header className="mb-1">
+                        <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#about'}>About</SectionHeading>
+                    </header>
                     <div className="border border-gray-700/70 bg-gray-900/40 p-6">
-                        <SectionHeading className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                            Currently: Research Engineer @ UK AISI
-                        </SectionHeading>
-                        <p className="mt-3 text-sm italic text-blue-200">
-                            Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
-                        </p>
-                        <ul
-                            className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5"
-                            role="list"
-                        >
-                            <li className="flex gap-2.5">
-                                <span className="font-mono text-emerald-500/90" aria-hidden>
-                                    &gt;
-                                </span>
-                                <span className="min-w-0 leading-relaxed">
-                                    I discovered AI safety during a career break and realized it was the most impactful thing I could be doing given my
-                                    existing skills and experience. It&apos;s a unique time in history to be a CS nerd. So I went for it. 🚀
-                                </span>
-                            </li>
-                            <li className="flex gap-2.5">
-                                <span className="font-mono text-emerald-500/90" aria-hidden>
-                                    &gt;
-                                </span>
-                                <span className="min-w-0 leading-relaxed">
-                                    My current team, <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
-                                    propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus includes
-                                    evaluation infrastructure, cyber ranges, and model capability testing before release, with collaboration across
-                                    government, industry, and research partners.
-                                </span>
-                            </li>
-                        </ul>
+                        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
+                            <div className="min-w-0 flex-1">
+                                <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
+                                    Currently: Research Engineer @ UK AISI
+                                </h2>
+                                <p className="mt-3 text-sm italic text-blue-200">
+                                    Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
+                                </p>
+                                <ul
+                                    className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5"
+                                    role="list"
+                                >
+                                    <li className="flex gap-2.5">
+                                        <span className="font-mono text-emerald-500/90" aria-hidden>
+                                            &gt;
+                                        </span>
+                                        <span className="min-w-0 leading-relaxed">
+                                            I discovered AI safety during a career break and realized it was the most impactful thing I could be doing
+                                            given my existing skills. It&apos;s a unique time in history to be a CS nerd. So I went for
+                                            it. 🚀
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-2.5">
+                                        <span className="font-mono text-emerald-500/90" aria-hidden>
+                                            &gt;
+                                        </span>
+                                        <span className="min-w-0 leading-relaxed">
+                                            My current team, <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
+                                            propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus
+                                            includes evaluation infrastructure, cyber ranges, and model capability testing before release, with
+                                            collaboration across government, industry, and research partners.
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-2.5">
+                                        <span className="font-mono text-emerald-500/90" aria-hidden>
+                                            &gt;
+                                        </span>
+                                        <span className="min-w-0 leading-relaxed">
+                                            I received a B.S. in Computational and Applied Mathematics from the University of Chicago. It was rough but I loved it.
+                                            In my previous life I've worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR, Citadel, and research assistantship at UChicago Booth.
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="mx-auto w-full max-w-[200px] shrink-0 overflow-hidden rounded-lg bg-gray-900/40 shadow-[0_8px_28px_rgba(0,0,0,0.32)] sm:max-w-[220px] lg:mx-0 lg:w-44 lg:max-w-none xl:w-48">
+                                <img
+                                    src="/pp/pp.JPG"
+                                    alt="Portrait"
+                                    className="aspect-square h-auto w-full object-cover"
+                                />
+                            </div>
+                        </div>
                     </div>
-
-                    <section>
-                        <SectionHeading className="mb-4 text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                            Education
-                        </SectionHeading>
-                        <div className="space-y-8 border-l border-blue-400/40 pl-6">
-                            {education.map((item) => (
-                                <article key={item.title} className="relative">
-                                    <span className="absolute -left-[31px] top-1 h-3 w-3 bg-blue-300" />
-                                    <p className="text-xs uppercase tracking-[0.14em] text-blue-200">{item.date}</p>
-                                    <h3 className="mt-1 text-lg font-semibold text-gray-100">{item.title}</h3>
-                                    <p className="text-sm text-gray-400">{item.location}</p>
-                                    <ul className="mt-3 list-none space-y-2.5 p-0 pl-0 text-sm text-gray-300" role="list">
-                                        {item.bullets.map((point) => (
-                                            <li key={point} className="flex gap-2.5">
-                                                <span className="font-mono text-emerald-500/90" aria-hidden>
-                                                    &gt;
-                                                </span>
-                                                <span className="min-w-0 leading-relaxed">{point}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section>
-                        <SectionHeading className="mb-4 text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                            Previous life
-                        </SectionHeading>
-                        <div className="space-y-8 border-l border-gray-400/40 pl-6">
-                            {previousLife.map((item) => (
-                                <article key={`${item.title}-${item.date}`} className="relative">
-                                    <span className="absolute -left-[31px] top-1 h-3 w-3 bg-gray-300" />
-                                    <p className="text-xs uppercase tracking-[0.14em] text-gray-300">{item.date}</p>
-                                    <h3 className="mt-1 text-lg font-semibold text-gray-100">{item.title}</h3>
-                                    <p className="text-sm text-gray-400">{item.location}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section>
-                        <SectionHeading className="mb-4 text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                            Internships
-                        </SectionHeading>
-                        <div className="space-y-8 border-l border-gray-400/40 pl-6">
-                            {internships.map((item) => (
-                                <article key={`${item.title}-${item.date}`} className="relative">
-                                    <span className="absolute -left-[31px] top-1 h-3 w-3 bg-gray-300" />
-                                    <p className="text-xs uppercase tracking-[0.14em] text-gray-300">{item.date}</p>
-                                    <h3 className="mt-1 text-lg font-semibold text-gray-100">{item.title}</h3>
-                                    <p className="text-sm text-gray-400">{item.location}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
                 </section>
 
                 <section id="work" className="scroll-mt-36 mt-16 flex flex-col gap-6 sm:scroll-mt-32">
-                    <SectionHeading as="p" className="text-sm uppercase tracking-[0.14em] text-blue-200">
+                    <header className="mb-1">
+                        <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#work'}>Work</SectionHeading>
+                    </header>
+                    <p className="text-sm uppercase tracking-[0.14em] text-blue-200">
                         (...that is public enough to share)
-                    </SectionHeading>
+                    </p>
 
                     <div className="space-y-5">
                         {workBlocks.map((item) => (
@@ -326,23 +308,21 @@ export default function SiteScrollPage() {
                     </div>
                 </section>
 
-                <section id="fun" className="scroll-mt-36 mt-16 flex flex-col gap-10 sm:scroll-mt-32">
-                    <SectionHeading as="p" className="text-sm uppercase tracking-[0.14em] text-blue-200">
-                        Il faut cultiver notre jardin.
-                    </SectionHeading>
+                <section id="fun" className="scroll-mt-36 mt-16 flex flex-col gap-4 sm:scroll-mt-32">
+                    <header className="mb-1">
+                        <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#fun'}>Fun</SectionHeading>
+                    </header>
 
-                    <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6 lg:items-stretch">
-                        <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
-                            <SectionHeading className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">
-                                Favorite movies
-                            </SectionHeading>
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch xl:grid-cols-4 lg:gap-5">
+                        <section className={funSubsectionBox}>
+                            <h2 className={`${aboutSubsectionTitle} leading-tight`}>Favorite movies</h2>
                             <a
                                 href="https://letterboxd.com/eqeen/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="mt-4 flex min-w-0 flex-wrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                                className="mt-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
                             >
-                                <LetterboxdIcon className="h-8 w-8 shrink-0 text-[#00e054]" />
+                                <LetterboxdIcon className="h-6 w-6 shrink-0 text-[#00e054]" />
                                 <span className="min-w-0">
                                     <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
                                         Letterboxd
@@ -350,7 +330,7 @@ export default function SiteScrollPage() {
                                     - follow my film diary
                                 </span>
                             </a>
-                            <ul className="mt-4 list-disc space-y-2 break-words pl-5 text-sm text-gray-200">
+                            <ul className="mt-2 list-disc space-y-1 break-words pl-4 text-xs leading-snug text-gray-300">
                                 {favoriteMovies.map((title) => (
                                     <li key={title} className="marker:text-blue-300">
                                         <span className="font-medium text-gray-100">{title}</span>
@@ -359,17 +339,15 @@ export default function SiteScrollPage() {
                             </ul>
                         </section>
 
-                        <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
-                            <SectionHeading className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">
-                                Favorite books
-                            </SectionHeading>
+                        <section className={funSubsectionBox}>
+                            <h2 className={aboutSubsectionTitle}>Favorite books</h2>
                             <a
                                 href="https://www.goodreads.com/user/show/18083552-ekin-zorer"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="mt-4 flex min-w-0 flex-wrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                                className="mt-3 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
                             >
-                                <GoodreadsIcon className="h-8 w-8 shrink-0 text-[#e9e5cd]" />
+                                <GoodreadsIcon className="h-6 w-6 shrink-0 text-[#e9e5cd]" />
                                 <span className="min-w-0">
                                     <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
                                         Goodreads
@@ -377,28 +355,26 @@ export default function SiteScrollPage() {
                                     - follow my reading
                                 </span>
                             </a>
-                            <ul className="mt-4 list-disc space-y-3 break-words pl-5 text-sm text-gray-300">
+                            <ul className="mt-3 list-disc space-y-1.5 break-words pl-4 text-xs leading-snug text-gray-300">
                                 {favoriteBooks.map((b) => (
                                     <li key={b.title} className="marker:text-blue-300">
                                         <span className="font-medium text-gray-100">{b.title}</span>
-                                        <span className="mt-0.5 block text-xs text-gray-400">{b.author}</span>
+                                        <span className="mt-0.5 block text-[11px] leading-snug text-gray-500">{b.author}</span>
                                     </li>
                                 ))}
                             </ul>
                         </section>
 
-                        <section className="flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-6">
-                            <SectionHeading className="text-lg font-semibold uppercase tracking-[0.12em] text-blue-200">
-                                Restaurants
-                            </SectionHeading>
-                            <div className="mt-4 min-w-0 overflow-x-auto">
+                        <section className={funSubsectionBox}>
+                            <h2 className={aboutSubsectionTitle}>Restaurants</h2>
+                            <div className="mt-3 min-w-0 overflow-x-auto">
                                 <a
                                     href="https://www.instagram.com/plsfixenyc/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex w-max max-w-none flex-nowrap items-center gap-3 text-sm text-gray-300 transition-opacity hover:opacity-90"
+                                    className="inline-flex w-max max-w-none flex-nowrap items-center gap-2 text-xs leading-snug text-gray-300 transition-opacity hover:opacity-90"
                                 >
-                                    <InstagramIcon className="h-8 w-8 shrink-0 text-[#E4405F]" />
+                                    <InstagramIcon className="h-6 w-6 shrink-0 text-[#E4405F]" />
                                     <span className="whitespace-nowrap">
                                         <span className="text-blue-300 underline decoration-blue-400/50 underline-offset-2 hover:text-blue-200">
                                             Instagram
@@ -408,16 +384,13 @@ export default function SiteScrollPage() {
                                 </a>
                             </div>
 
-                            <div className="mt-4 space-y-6">
+                            <div className="mt-3 space-y-4">
                                 <div>
-                                    <SectionHeading
-                                        as="h3"
-                                        className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-200"
-                                    >
+                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
                                         London
-                                    </SectionHeading>
-                                    <p className="text-xs text-gray-500">Lived ~1 year and still here!</p>
-                                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-200">
+                                    </h3>
+                                    <p className="text-[11px] leading-snug text-gray-500">Lived ~1 year and still here!</p>
+                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
                                         <li className="marker:text-blue-300">OMA</li>
                                         <li className="marker:text-blue-300">Roti King</li>
                                         <li className="marker:text-blue-300">Rogues.</li>
@@ -426,14 +399,11 @@ export default function SiteScrollPage() {
                                     </ul>
                                 </div>
                                 <div>
-                                    <SectionHeading
-                                        as="h3"
-                                        className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-200"
-                                    >
+                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
                                         New York City
-                                    </SectionHeading>
-                                    <p className="text-xs text-gray-500">Lived ~4 years</p>
-                                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-200">
+                                    </h3>
+                                    <p className="text-[11px] leading-snug text-gray-500">Lived ~4 years</p>
+                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
                                         <li className="marker:text-blue-300">Birds of a Feather</li>
                                         <li className="marker:text-blue-300">Kopitiam</li>
                                         <li className="marker:text-blue-300">The Noortwyck</li>
@@ -442,14 +412,11 @@ export default function SiteScrollPage() {
                                     </ul>
                                 </div>
                                 <div>
-                                    <SectionHeading
-                                        as="h3"
-                                        className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-200"
-                                    >
+                                    <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-200">
                                         Istanbul
-                                    </SectionHeading>
-                                    <p className="text-xs text-gray-500">Born &amp; raised</p>
-                                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-200">
+                                    </h3>
+                                    <p className="text-[11px] leading-snug text-gray-500">Born &amp; raised</p>
+                                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-gray-300">
                                         <li className="marker:text-blue-300">Bayramoğlu</li>
                                         <li className="marker:text-blue-300">Karaköy Lokantası</li>
                                         <li className="marker:text-blue-300">Mükellef Karaköy</li>
@@ -458,10 +425,25 @@ export default function SiteScrollPage() {
                                 </div>
                             </div>
                         </section>
+
+                        <section className={funSubsectionBox}>
+                            <h2 className={aboutSubsectionTitle}>Current music obsession</h2>
+                            <ul
+                                className="mt-3 list-none space-y-1 border-l border-emerald-500/25 pl-2.5 text-xs leading-snug text-gray-300"
+                                role="list"
+                            >
+                                {currentMusicObsession.map((name) => (
+                                    <li key={name}>{name}</li>
+                                ))}
+                            </ul>
+                        </section>
                     </div>
                 </section>
 
                 <section id="contact" className="scroll-mt-36 mt-16 sm:scroll-mt-32">
+                    <header className="mb-6">
+                        <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#contact'}>Contact</SectionHeading>
+                    </header>
                     <div className="border border-gray-700/70 bg-gray-900/40 p-6">
                         <p className="text-sm text-gray-300">
                             You can reach out to me at{' '}
@@ -474,9 +456,7 @@ export default function SiteScrollPage() {
                             <span className="font-medium text-gray-200">only about AI safety please. </span>
                         </p>
                         <div className="mt-4">
-                            <SectionHeading as="h3" className="text-sm font-medium text-gray-400">
-                                💬 Advice & mentoring
-                            </SectionHeading>
+                            <h3 className="text-sm font-medium text-gray-400">💬 Advice & mentoring</h3>
                             <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5" role="list">
                                 <li className="flex gap-2.5">
                                     <span className="font-mono text-emerald-500/90" aria-hidden>
@@ -501,9 +481,7 @@ export default function SiteScrollPage() {
                         </div>
 
                         <div className="mt-5">
-                            <SectionHeading as="h3" className="text-sm font-medium text-gray-400">
-                                🤝 Collaboration
-                            </SectionHeading>
+                            <h3 className="text-sm font-medium text-gray-400">🤝 Collaboration</h3>
                             <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5" role="list">
                                 <li className="flex gap-2.5">
                                     <span className="font-mono text-emerald-500/90" aria-hidden>

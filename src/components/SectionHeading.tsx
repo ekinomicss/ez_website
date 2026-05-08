@@ -4,6 +4,7 @@ type SectionHeadingProps<T extends ElementType = 'h2'> = {
     as?: T
     id?: string
     className?: string
+    showCursor?: boolean
     children: ReactNode
 }
 
@@ -12,11 +13,12 @@ export default function SectionHeading<T extends ElementType = 'h2'>({
     as,
     id,
     className = '',
+    showCursor = true,
     children,
 }: SectionHeadingProps<T>) {
     const Tag = (as ?? 'h2') as ElementType
     return (
-        <Tag id={id} className={`heading-cursor ${className}`.trim()}>
+        <Tag id={id} className={`${showCursor ? 'heading-cursor' : ''} ${className}`.trim()}>
             {children}
         </Tag>
     )

@@ -21,17 +21,21 @@ const blogSoonClass =
 const chevronClass =
     'mb-px select-none font-mono text-emerald-500 leading-none group-hover:text-emerald-400 group-data-[active=true]:text-emerald-400'
 
-const caretClass =
-    'pointer-events-none ml-0.5 inline-block h-[0.85em] w-[2px] shrink-0 translate-y-[0.06em] rounded-[1px] bg-current opacity-0 group-hover:animate-caret-blink group-data-[active=true]:animate-caret-blink motion-reduce:group-hover:animate-none motion-reduce:group-data-[active=true]:animate-none motion-reduce:group-hover:opacity-100 motion-reduce:group-data-[active=true]:opacity-100'
+const caretBase =
+    'pointer-events-none ml-0.5 inline-block h-[0.85em] w-[2px] shrink-0 translate-y-[0.06em] rounded-[1px] bg-current opacity-0 group-hover:animate-caret-blink motion-reduce:group-hover:animate-none motion-reduce:group-hover:opacity-100'
+
+const caretActiveClasses =
+    'group-data-[active=true]:animate-caret-blink motion-reduce:group-data-[active=true]:animate-none motion-reduce:group-data-[active=true]:opacity-100'
 
 type SiteNavProps = {
     onNavigate: (hash: string) => void
     activeHash: string
     disabled?: boolean
+    showCaret?: boolean
     className?: string
 }
 
-export default function SiteNav({ onNavigate, activeHash, disabled, className }: SiteNavProps) {
+export default function SiteNav({ onNavigate, activeHash, disabled, showCaret = true, className }: SiteNavProps) {
     return (
         <nav
             className={className ?? 'flex flex-wrap items-stretch gap-x-1 gap-y-1'}
@@ -53,7 +57,7 @@ export default function SiteNav({ onNavigate, activeHash, disabled, className }:
                             &gt;
                         </span>
                         <span className="min-w-0">{label}</span>
-                        <span aria-hidden className={caretClass} />
+                        <span aria-hidden className={`${caretBase} ${showCaret ? caretActiveClasses : ''}`} />
                     </button>
                 )
             })}
