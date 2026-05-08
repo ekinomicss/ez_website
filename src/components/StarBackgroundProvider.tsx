@@ -68,15 +68,11 @@ export default function StarBackgroundProvider({ children }: { children: React.R
         }
 
         measure()
-        const ro = new ResizeObserver(measure)
-        ro.observe(clearZoneEl)
-        // Keep clear zone static during scroll; only recompute on layout/viewport changes.
         window.addEventListener('resize', measure)
 
         setClearZoneTick((t) => t + 1)
 
         return () => {
-            ro.disconnect()
             window.removeEventListener('resize', measure)
         }
     }, [clearZoneEl])
