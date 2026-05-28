@@ -223,7 +223,7 @@ export default function SiteScrollPage() {
                                             &gt;
                                         </span>
                                         <span className="min-w-0 leading-relaxed">
-                                            <strong>Purpose:</strong> I feel a deep unease at the thought of living a life for just myself. I plan to reduce human suffering and contribute to human flourishing as much as possible, and intend to shape my work as such. If you&apos;re also intrigued by a similar purpose, I suggest you check out <a href="https://80000hours.org/career-guide/" target="_blank" style={{}}><strong>this page</strong></a>.
+                                            <strong>Purpose:</strong> I feel a deep unease at the thought of living a life for just myself. I plan to reduce human suffering and contribute to human flourishing as much as possible, and intend to shape my career as such. If you&apos;re also intrigued by a similar purpose, I suggest you check out <a href="https://80000hours.org/career-guide/" target="_blank" style={{}}><strong>this page</strong></a>.
                                         </span>
                                     </li>
                                     <li className="flex gap-2.5">
