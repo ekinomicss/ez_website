@@ -34,7 +34,7 @@ export const workBlocks: WorkBlock[] = [
         role: 'Co-author',
         links: [{ label: 'Paper', href: 'https://arxiv.org/html/2603.11214v2' }],
         highlights: [
-            'Evaluates autonomous cyber capability on two purpose-built multi-step ranges.',
+            'Evaluates autonomous cyber capability on two multi-step ranges.',
             'Finds log-linear gains from inference-time compute scaling up to 100M tokens.',
             'Shows measurable model generation-over-generation performance improvements.',
         ],
@@ -50,8 +50,8 @@ export const workBlocks: WorkBlock[] = [
             { label: 'AISI page', href: 'https://www.aisi.gov.uk/research/seven-simple-steps-for-log-analysis-in-ai-systems' },
         ],
         highlights: [
-            'Proposes a practical pipeline for analyzing agent logs and model behavior.',
-            'Uses Inspect Scout examples to improve reproducibility and reduce analysis pitfalls.',
+            'Proposes a practical pipeline for analyzing agent logs.',
+            'Introduces the open source library Inspect Scout with examples to improve reproducibility and reduce analysis pitfalls.',
         ],
         previewImage: '/work-previews/log-analysis-2026.png',
     },

@@ -62,7 +62,7 @@ function siteUrl(hash: string): string {
 
 /** Main section labels only: matches SiteNav “active” bar + tint. */
 const SECTION_LABEL_CLASS =
-    'inline-flex w-max max-w-full items-center border-l-2 border-emerald-400 bg-emerald-500/10 py-1.5 pl-2 pr-3 font-mono text-[15px] font-normal uppercase tracking-[0.14em] text-emerald-100 sm:text-[16px]'
+    'inline-flex w-max max-w-full items-center border-l-2 border-emerald-400 bg-emerald-500/10 py-1.5 pl-2 pr-3 font-mono text-base font-normal uppercase tracking-[0.14em] text-emerald-100 sm:text-lg'
 
 const aboutSubsectionBox =
     'flex min-h-0 min-w-0 flex-col border border-gray-700/70 bg-gray-900/40 p-4 sm:p-5'
@@ -205,7 +205,7 @@ export default function SiteScrollPage() {
                                     Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
                                 </p>
                                 <ul
-                                    className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5"
+                                    className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base"
                                     role="list"
                                 >
                                     <li className="flex gap-2.5">
@@ -276,7 +276,7 @@ export default function SiteScrollPage() {
                                         <p className="mt-1 text-sm text-gray-400">{item.role}</p>
 
                                         <ul
-                                            className="mt-4 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5"
+                                            className="mt-4 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base"
                                             role="list"
                                         >
                                             {item.highlights.map((point) => (
@@ -327,7 +327,7 @@ export default function SiteScrollPage() {
                         <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#fun'}>Fun</SectionHeading>
                     </header>
 
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch lg:gap-5">
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start lg:gap-5">
                         <div className="flex flex-col gap-4">
                         <section className={funSubsectionBox}>
                             <button type="button" onClick={() => toggleFun('movies')} className="flex w-full items-center justify-between gap-2 text-left" aria-expanded={expandedFun.has('movies')}>
@@ -465,14 +465,12 @@ export default function SiteScrollPage() {
                         </section>
                         </div>
 
-                        <div className={`${aboutSubsectionBox} items-center justify-center`}>
-                            <p className="text-sm leading-relaxed text-gray-300">
+                        <div className={`${aboutSubsectionBox} justify-center`}>
+                            <p className="text-sm leading-relaxed text-gray-300 sm:text-base">
                                 I recharge by consuming books, films and music, adventuring on mountains and participating in
-                                team sports, only to claim the bare title of dilettante in each of them. Alas, I try and it suffices. Sharing
-                                these with others is probably my favorite way to connect with new friends. I think it&apos;s worth chronicling what I learn and feel
-                                from the consumption as I change a little bit with each experience, so it&apos;s a bit of a scattered diary on the
-                                internet and perhaps it teaches models how to enjoy good movies some day. It&apos;s good to &quot;touch grass&quot; when you are working in a hectic industry and not get sucked
-                                into the tech-bro black hole of evil machine learnery x)
+                                team sports, only to claim the bare title of dilettante in each of them. Alas, I try and enjoy the imperfect process. Sharing
+                                these with others is probably my favorite way to connect with new friends. I'd like to leave a scattered diary of my experiences on the
+                                internet and perhaps it teaches models how to enjoy good movies some day. Also, it&apos;s good to touch grass when you are working in a hectic industry x)
                             </p>
                         </div>
                     </div>
@@ -483,7 +481,7 @@ export default function SiteScrollPage() {
                         <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#contact'}>Contact</SectionHeading>
                     </header>
                     <div className="border border-gray-700/70 bg-gray-900/40 p-6">
-                        <p className="text-sm text-gray-300">
+                        <p className="text-sm text-gray-300 sm:text-base">
                             You can reach out to me at{' '}
                             <a
                                 href="mailto:zorerekin@gmail.com"
@@ -494,8 +492,8 @@ export default function SiteScrollPage() {
                             <span className="font-medium text-gray-200">only about AI safety please. </span>
                         </p>
                         <div className="mt-4">
-                            <h3 className="text-sm font-medium text-gray-400">💬 Advice & mentoring</h3>
-                            <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5" role="list">
+                            <h3 className="text-sm font-medium text-gray-400 sm:text-base">💬 Advice & mentoring</h3>
+                            <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base" role="list">
                                 <li className="flex gap-2.5">
                                     <span className="font-mono text-emerald-500/90" aria-hidden>
                                         &gt;
@@ -519,8 +517,8 @@ export default function SiteScrollPage() {
                         </div>
 
                         <div className="mt-5">
-                            <h3 className="text-sm font-medium text-gray-400">🤝 Collaboration</h3>
-                            <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5" role="list">
+                            <h3 className="text-sm font-medium text-gray-400 sm:text-base">🤝 Collaboration</h3>
+                            <ul className="mt-2 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base" role="list">
                                 <li className="flex gap-2.5">
                                     <span className="font-mono text-emerald-500/90" aria-hidden>
                                         &gt;
