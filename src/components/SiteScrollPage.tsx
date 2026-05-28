@@ -223,9 +223,17 @@ export default function SiteScrollPage() {
                                             &gt;
                                         </span>
                                         <span className="min-w-0 leading-relaxed">
-                                            My current team, <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
+                                            <strong>Purpose:</strong> I feel a deep unease at the thought of living a life for just myself. I plan to reduce human suffering and contribute to human flourishing as much as possible, and intend to shape my work as such. If you&apos;re also intrigued by a similar purpose, I suggest you check out <a href="https://80000hours.org/career-guide/" target="_blank" style={{}}><strong>this page</strong></a>.
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-2.5">
+                                        <span className="font-mono text-emerald-500/90" aria-hidden>
+                                            &gt;
+                                        </span>
+                                        <span className="min-w-0 leading-relaxed">
+                                            <strong>Current work:</strong> <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
                                             propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus
-                                            includes evaluation infrastructure, cyber ranges, and model capability testing before release, with
+                                            includes eval infrastructure, cyber ranges, and model capability testing before release, with
                                             collaboration across government, industry, and research partners.
                                         </span>
                                     </li>
@@ -234,8 +242,8 @@ export default function SiteScrollPage() {
                                             &gt;
                                         </span>
                                         <span className="min-w-0 leading-relaxed">
-                                            I received a B.S. in Computational and Applied Mathematics from the University of Chicago. It was rough but I loved it.
-                                            In my previous life I've worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR and Citadel, and a research assistantship at UChicago Booth.
+                                            <strong>Background:</strong> I received a B.S. in Computational and Applied Mathematics from the University of Chicago.
+                                            In my previous life I&apos;ve worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR and Citadel, and a research assistantship at UChicago Booth.
                                         </span>
                                     </li>
                                 </ul>
