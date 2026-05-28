@@ -199,7 +199,7 @@ export default function SiteScrollPage() {
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
                             <div className="min-w-0 flex-1">
                                 <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                                    Currently: Research Engineer @ UK AISI
+                                    Research Engineer @ UK AISI
                                 </h2>
                                 <p className="mt-3 text-sm italic text-blue-200">
                                     Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
