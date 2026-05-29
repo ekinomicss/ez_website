@@ -196,66 +196,62 @@ export default function SiteScrollPage() {
                         <SectionHeading className={SECTION_LABEL_CLASS} showCursor={cursorTarget === 'heading' && activeHash === '#about'}>About</SectionHeading>
                     </header>
                     <div className="border border-gray-700/70 bg-gray-900/40 p-6">
-                        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
-                            <div className="min-w-0 flex-1">
-                                <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
-                                    Research Engineer @ UK AISI
-                                </h2>
-                                <p className="mt-3 text-sm italic text-blue-200">
-                                    Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
-                                </p>
-                                <ul
-                                    className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base"
-                                    role="list"
-                                >
-                                    <li className="flex gap-2.5">
-                                        <span className="font-mono text-emerald-500/90" aria-hidden>
-                                            &gt;
-                                        </span>
-                                        <span className="min-w-0 leading-relaxed">
-                                            I discovered AI safety during a career break and realized it was the most impactful thing I could be doing
-                                            given my existing skills. It&apos;s a unique time in history to be a CS nerd. So I went for
-                                            it. 🚀
-                                        </span>
-                                    </li>
-                                    <li className="flex gap-2.5">
-                                        <span className="font-mono text-emerald-500/90" aria-hidden>
-                                            &gt;
-                                        </span>
-                                        <span className="min-w-0 leading-relaxed">
-                                            <strong>Purpose:</strong> I feel a deep unease at the thought of living a life for just myself. I plan to reduce human suffering and contribute to human flourishing as much as possible, and intend to shape my career as such. If you&apos;re also intrigued by a similar purpose, I suggest you check out <a href="https://80000hours.org/career-guide/" target="_blank" style={{}}><strong>this page</strong></a>.
-                                        </span>
-                                    </li>
-                                    <li className="flex gap-2.5">
-                                        <span className="font-mono text-emerald-500/90" aria-hidden>
-                                            &gt;
-                                        </span>
-                                        <span className="min-w-0 leading-relaxed">
-                                            <strong>Current work:</strong> <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
-                                            propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus
-                                            includes eval infrastructure, cyber ranges, and model capability testing before release, with
-                                            collaboration across government, industry, and research partners.
-                                        </span>
-                                    </li>
-                                    <li className="flex gap-2.5">
-                                        <span className="font-mono text-emerald-500/90" aria-hidden>
-                                            &gt;
-                                        </span>
-                                        <span className="min-w-0 leading-relaxed">
-                                            <strong>Background:</strong> I received a B.S. in Computational and Applied Mathematics from the University of Chicago.
-                                            In my previous life I&apos;ve worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR and Citadel, and a research assistantship at UChicago Booth.
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="mx-auto w-full max-w-[200px] shrink-0 overflow-hidden rounded-lg bg-gray-900/40 shadow-[0_8px_28px_rgba(0,0,0,0.32)] sm:max-w-[220px] lg:mx-0 lg:w-44 lg:max-w-none xl:w-48">
-                                <img
-                                    src="/pp/pp.JPG"
-                                    alt="Portrait"
-                                    className="aspect-square h-auto w-full object-cover"
-                                />
-                            </div>
+                        <div className="mx-auto mb-4 w-full max-w-[300px] overflow-hidden rounded-lg bg-gray-900/40 shadow-[0_8px_28px_rgba(0,0,0,0.32)] sm:float-right sm:mb-2 sm:ml-6 sm:mt-20 sm:w-60 xl:w-64">
+                            <img
+                                src="/pp/pp.JPG"
+                                alt="Portrait"
+                                className="aspect-square h-auto w-full object-cover"
+                            />
                         </div>
+                        <h2 className="text-2xl font-semibold uppercase tracking-[0.12em] text-blue-200">
+                            Research Engineer @ UK AISI
+                        </h2>
+                        <p className="mt-3 text-sm italic text-blue-200">
+                            Former quant hedge fund analytics person turned professional AI safety person. 🤖❤️🌎
+                        </p>
+                        <ul
+                            className="mt-3 list-none space-y-2.5 border-l border-emerald-500/25 pl-4 text-sm text-gray-300 sm:pl-5 sm:text-base"
+                            role="list"
+                        >
+                            <li className="flex gap-2.5">
+                                <span className="font-mono text-emerald-500/90" aria-hidden>
+                                    &gt;
+                                </span>
+                                <span className="min-w-0 leading-relaxed">
+                                    I discovered AI safety during a career break and realized it was the most impactful thing I could be doing
+                                    given my existing skills. It&apos;s a unique time in history to be a CS nerd. So I went for
+                                    it. 🚀
+                                </span>
+                            </li>
+                            <li className="flex gap-2.5">
+                                <span className="font-mono text-emerald-500/90" aria-hidden>
+                                    &gt;
+                                </span>
+                                <span className="min-w-0 leading-relaxed">
+                                    <strong>Purpose:</strong> I feel a deep unease at the thought of living a life for just myself. I plan to reduce human suffering and contribute to human flourishing as much as possible, and intend to shape my career as such. If you&apos;re also intrigued by a similar purpose, I suggest you check out <a href="https://80000hours.org/career-guide/" target="_blank" style={{}}><strong>this page</strong></a>.
+                                </span>
+                            </li>
+                            <li className="flex gap-2.5">
+                                <span className="font-mono text-emerald-500/90" aria-hidden>
+                                    &gt;
+                                </span>
+                                <span className="min-w-0 leading-relaxed">
+                                    <strong>Current work:</strong> <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
+                                    propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus
+                                    includes eval infrastructure, cyber ranges, and model capability testing before release, with
+                                    collaboration across government, industry, and research partners.
+                                </span>
+                            </li>
+                            <li className="flex gap-2.5">
+                                <span className="font-mono text-emerald-500/90" aria-hidden>
+                                    &gt;
+                                </span>
+                                <span className="min-w-0 leading-relaxed">
+                                    <strong>Background:</strong> I received a B.S. in Computational and Applied Mathematics from the University of Chicago.
+                                    In my previous life I&apos;ve worked at multi-strategy hedge fund Walleye Capital, and quant hedge fund AQR Capital Management, with internships at AQR and Citadel, and a research assistantship at UChicago Booth.
+                                </span>
+                            </li>
+                        </ul>
                     </div>
                 </section>
 
