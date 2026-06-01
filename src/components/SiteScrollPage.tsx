@@ -236,7 +236,7 @@ export default function SiteScrollPage() {
                                     &gt;
                                 </span>
                                 <span className="min-w-0 leading-relaxed">
-                                    <i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
+                                    My current team,<i>The Cyber and Autonomous Systems Team (CAST)</i>, researches frontier AI capabilities and
                                     propensities to inform high-stakes security decisions around cyber risk and autonomous misuse. Current focus
                                     includes eval infrastructure, cyber ranges, and model capability testing before release, with
                                     collaboration across government, industry, and research partners.
