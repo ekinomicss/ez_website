@@ -44,9 +44,11 @@ const favoriteBooks: { title: string; author: string }[] = [
 const currentMusicObsession = [
     'Arcade Fire',
     'Altın Gün',
+    'Ezra Collective',
     'Angine de Poitrine',
-    'Tame Impala — new album',
-    'Doja Cat — new album',
+    'Harry Nilsson',
+    'Fleetwood Mac',
+    'Tame Impala — new album','
 ] as const
 
 const NAV_HASHES = ['#about', '#work', '#fun', '#contact'] as const
