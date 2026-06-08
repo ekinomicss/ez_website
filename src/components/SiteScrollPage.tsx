@@ -48,7 +48,7 @@ const currentMusicObsession = [
     'Angine de Poitrine',
     'Harry Nilsson',
     'Fleetwood Mac',
-    'Tame Impala — new album','
+    'Tame Impala — new album',
 ] as const
 
 const NAV_HASHES = ['#about', '#work', '#fun', '#contact'] as const
